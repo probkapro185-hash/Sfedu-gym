@@ -97,7 +97,7 @@ func main() {
 	authSvc := service.NewAuthService(userRepo, appRepo, tokenMgr, hasher, cfg.JWTTokenTTL)
 	userSvc := service.NewUserService(userRepo, appRepo, hasher)
 	trainerSvc := service.NewTrainerService(trainerRepo)
-	scheduleSvc := service.NewScheduleService(trainingRepo, trainingReqRepo, userRepo, paymentRepo)
+	scheduleSvc := service.NewScheduleService(trainingRepo, trainingReqRepo, userRepo, paymentRepo, subscriptionRepo)
 	financeSvc := service.NewFinanceService(paymentRepo, userRepo)
 	shopSvc := service.NewShopService(productRepo, subscriptionRepo, paymentRepo, userRepo)
 	aiSvc := service.NewAIAssistantService()

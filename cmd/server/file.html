@@ -18,6 +18,12 @@
   --shadow:0 0 24px rgba(37,99,235,.22);
   --f1:'Exo 2',sans-serif;--f2:'Rajdhani',sans-serif;
 }
+[data-theme="light"] {
+  --bg:#f0f2f7;--bg2:#ffffff;--bg3:#f8f9fc;--bg4:#eef0f6;
+  --border:#d8dce8;--border2:#2563eb;
+  --t1:#1a1f36;--t2:#5a6282;--t3:#9aa0b8;
+  --shadow:0 0 24px rgba(37,99,235,.12);
+}
 html,body{height:100%;font-family:var(--f1);background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;font-family:var(--f1)}
@@ -31,7 +37,7 @@ input,textarea,select{font-family:var(--f1)}
 .s1{animation-delay:.05s;opacity:0}.s2{animation-delay:.12s;opacity:0}
 #app{height:100vh;overflow:hidden;display:flex;flex-direction:column}
 .page{display:none;flex:1;overflow:hidden}
-.page.active{display:flex;flex-direction:column}
+.page.active{display:flex;flex-direction:column;animation:fadeUp .3s ease}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:var(--r);font-family:var(--f1);font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.02em;white-space:nowrap}
 .btn-primary{background:var(--blue);color:#fff;padding:9px 20px;font-size:14px;box-shadow:0 0 16px rgba(37,99,235,.35)}
 .btn-primary:hover{background:#1d4ed8;box-shadow:0 0 24px rgba(37,99,235,.5);transform:translateY(-1px)}
@@ -201,6 +207,58 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .toast.error{border-color:var(--red)}
 .app-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:border-color .2s}
 .app-card:hover{border-color:var(--blue2)}
+@media(max-width:768px){
+  .hero-content{padding:0 20px}
+  .land-section{padding:60px 20px}
+  .land-nav{padding:0 16px}
+  .land-nav-links{display:none}
+  .services-grid{grid-template-columns:1fr}
+  .dash-wrap{flex-direction:column}
+  .sidebar{width:100%;flex-direction:row;padding:8px;height:auto;border-right:none;border-bottom:1px solid var(--border);overflow-x:auto;gap:4px}
+  .sidebar-staff{width:100%}
+  .nav-item{flex-direction:column;gap:4px;padding:8px 10px;font-size:11px;min-width:60px;flex-shrink:0}
+  .nav-item svg{width:20px;height:20px}
+  .topbar{padding:0 12px;height:50px}
+  .topbar-stat{display:none}
+  .cal-nav{flex-wrap:wrap;gap:10px;justify-content:center}
+  .cal-tabs{order:3;width:100%;justify-content:center}
+  .cal-title{min-width:unset}
+  .cal-cell{min-height:50px;padding:3px}
+  .cal-date{font-size:11px;width:18px;height:18px}
+  .cal-event{display:none}
+  .table-wrap{font-size:12px}
+  th,td{padding:8px 10px}
+  .pay-cards{grid-template-columns:1fr}
+  .finance-summary{grid-template-columns:1fr 1fr}
+  .shop-grid{grid-template-columns:1fr}
+  .trainers-grid{grid-template-columns:1fr}
+  .profile-form{grid-template-columns:1fr}
+  .modal-box{padding:20px;margin:16px}
+  .clients-filters{padding:0 12px}
+  .clients-filters input{width:100%!important}
+  .hero-h1{font-size:36px!important}
+  .hero-btns{flex-direction:column}
+  #ssec-profile{padding:16px!important}
+}
+
+@media(max-width:480px){
+  .nav-item{min-width:52px;padding:6px 8px;font-size:10px}
+  .finance-summary{grid-template-columns:1fr}
+  th:nth-child(4),td:nth-child(4),
+  th:nth-child(5),td:nth-child(5),
+  th:nth-child(6),td:nth-child(6){display:none}
+}
+
+@keyframes shimmer {
+  0%{background-position:-200% 0}
+  100%{background-position:200% 0}
+}
+.skeleton{
+  background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:var(--r);
+}
 </style>
 </head>
 <body>
@@ -309,8 +367,8 @@ tr:hover td{background:rgba(255,255,255,.02)}
     </div>
     <div class="topbar-right">
       <div class="topbar-stat"><span>Баланс:</span><span id="c-balance">0.00</span></div>
-      <div class="topbar-stat"><span>Посещения:</span><span id="c-visits">0</span></div>
-      <button class="topbar-btn-pay" onclick="openModal('modal-topup')">+ Оплатить</button>
+      <button onclick="toggleTheme()" id="theme-btn-client" style="background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:5px 10px;cursor:pointer;font-size:14px;color:var(--t2)">🌙</button>
+        <button class="topbar-btn-pay" onclick="openModal('modal-topup')">+ Оплатить</button>
       <div class="dropdown">
         <button onclick="toggleDropdown('dd-client')" style="display:flex;align-items:center;gap:8px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:5px 11px;color:var(--t1)">
           <div class="avatar" id="c-avatar" style="width:28px;height:28px;font-size:11px">ПТ</div>
@@ -326,63 +384,102 @@ tr:hover td{background:rgba(255,255,255,.02)}
   </div>
   <div class="dash-wrap">
     <div class="sidebar">
-      <button class="nav-item" id="cnav-profile"  onclick="clientNav('profile')"><span class="nav-icon">👤</span>Главная</button>
-      <button class="nav-item" id="cnav-schedule" onclick="clientNav('schedule')"><span class="nav-icon">🔥</span>Расписание</button>
-      <button class="nav-item" id="cnav-payments" onclick="clientNav('payments')"><span class="nav-icon">▤</span>Платежи</button>
-      <button class="nav-item" id="cnav-shop"     onclick="clientNav('shop')"><span class="nav-icon">🛒</span>Магазин</button>
-      <button class="nav-item" id="cnav-trainers" onclick="clientNav('trainers')"><span class="nav-icon">💪</span>Тренера</button>
+        <button class="nav-item" id="cnav-profile" onclick="clientNav('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Главная</button>
+        <button class="nav-item" id="cnav-schedule" onclick="clientNav('schedule')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Расписание</button>
+        <button class="nav-item" id="cnav-payments" onclick="clientNav('payments')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Платежи</button>
+        <button class="nav-item" id="cnav-shop" onclick="clientNav('shop')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Магазин</button>
+        <button class="nav-item" id="cnav-trainers" onclick="clientNav('trainers')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Тренера</button>
     </div>
     <div class="dash-main">
       <!-- Profile -->
       <div id="csec-profile" class="fade-up" style="padding:28px;max-width:700px">
-        <div class="card card-glow" style="padding:30px">
-          <h2 style="font-size:20px;font-weight:700;margin-bottom:22px">Мои данные</h2>
-          <div id="profile-view-mode">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-              <div class="avatar" id="profile-big-avatar" style="width:48px;height:48px;font-size:18px">ПТ</div>
-              <span id="profile-fullname" style="font-size:16px;font-weight:600">Загрузка...</span>
-            </div>
-            <div style="display:flex;gap:22px;margin-bottom:18px">
-              <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="checkbox" id="gender-male" style="accent-color:var(--blue);width:15px;height:15px"> Мужской</label>
-              <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="checkbox" id="gender-female" style="accent-color:var(--blue);width:15px;height:15px"> Женский</label>
-            </div>
-            <div class="profile-form" style="margin-bottom:16px">
-              <div class="inp-wrap"><label class="inp-label">ФИО</label><input class="inp" id="p-fullname" placeholder="Фамилия Имя Отчество"></div>
-              <div class="inp-wrap"><label class="inp-label">Телефон</label><input class="inp" id="p-phone" placeholder="+7(987)654-32-10"></div>
-            </div>
-            <div class="inp-wrap" style="margin-bottom:22px"><label class="inp-label">Email</label><input class="inp" id="p-email" placeholder="email@gmail.com"></div>
-            <div id="profile-msg" style="font-size:13px;margin-bottom:12px;display:none"></div>
-            <div style="display:flex;gap:12px">
-              <button class="btn btn-ghost" onclick="showPassMode()">Сменить пароль</button>
-              <button class="btn btn-ghost" id="btn-edit-profile" onclick="enableProfileEdit()">Изменить</button>
-              <button class="btn btn-primary" id="btn-save-profile" onclick="saveProfile()" style="display:none">Сохранить</button>
-            </div>
-          </div>
-          <div id="profile-pass-mode" style="display:none">
-            <div style="margin-bottom:24px"><button class="btn btn-ghost btn-sm" onclick="hidePassMode()">‹ Назад</button></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-              <div class="inp-wrap"><label class="inp-label">Новый пароль</label><input type="password" class="inp" id="new-pass" placeholder="••••••••"></div>
-              <div class="inp-wrap"><label class="inp-label">Подтверждение</label><input type="password" class="inp" id="confirm-pass" placeholder="••••••••"></div>
-            </div>
-            <div class="inp-wrap" style="margin-bottom:20px"><label class="inp-label">Текущий пароль</label><input type="password" class="inp" id="old-pass" placeholder="••••••••"></div>
-            <div id="pass-msg" style="font-size:13px;margin-bottom:12px;display:none"></div>
-            <button class="btn btn-primary" onclick="changePassword()">Сохранить</button>
-          </div>
-        </div>
+
+  <!-- Статистика -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
+  <div class="card" style="padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:110px">
+    <div style="font-size:13px;color:var(--t2);margin-bottom:8px">Посещений</div>
+    <div style="font-size:36px;font-weight:800;color:var(--blue2);font-family:var(--f2);line-height:1" id="stat-visits">—</div>
+  </div>
+  <div class="card" style="padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:110px">
+    <div style="font-size:13px;color:var(--t2);margin-bottom:8px">Занятий осталось</div>
+    <div style="font-size:36px;font-weight:800;color:var(--green);font-family:var(--f2);line-height:1" id="stat-sessions">—</div>
+  </div>
+  <div class="card" style="padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:110px">
+    <div style="font-size:13px;color:var(--t2);margin-bottom:8px">Абонемент до</div>
+    <div style="font-size:22px;font-weight:800;font-family:var(--f2);line-height:1" id="stat-sub-expires">—</div>
+  </div>
+  <div class="card" style="padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:110px">
+    <div style="font-size:13px;color:var(--t2);margin-bottom:8px">На этой неделе</div>
+    <div style="font-size:36px;font-weight:800;color:var(--yellow);font-family:var(--f2);line-height:1" id="stat-week">—</div>
+  </div>
+</div>
+
+  <!-- Ближайшая тренировка -->
+  <div class="card" style="padding:18px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:44px;height:44px;border-radius:50%;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
       </div>
+      <div>
+        <div style="font-size:13px;color:var(--t2);margin-bottom:3px">Ближайшая тренировка</div>
+        <div style="font-size:15px;font-weight:700" id="stat-next-training">Загрузка...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Профиль -->
+  <div class="card card-glow" style="padding:30px">
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">Мои данные</h2>
+    <div id="profile-view-mode">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+        <div class="avatar" id="profile-big-avatar" style="width:48px;height:48px;font-size:18px">ПТ</div>
+        <span id="profile-fullname" style="font-size:16px;font-weight:600">Загрузка...</span>
+      </div>
+      <div style="display:flex;gap:22px;margin-bottom:18px">
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="checkbox" id="gender-male" style="accent-color:var(--blue);width:15px;height:15px"> Мужской</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="checkbox" id="gender-female" style="accent-color:var(--blue);width:15px;height:15px"> Женский</label>
+      </div>
+      <div class="profile-form" style="margin-bottom:16px">
+        <div class="inp-wrap"><label class="inp-label">ФИО</label><input class="inp" id="p-fullname" placeholder="Фамилия Имя Отчество"></div>
+        <div class="inp-wrap"><label class="inp-label">Телефон</label><input class="inp" id="p-phone" placeholder="+7(987)654-32-10"></div>
+      </div>
+      <div class="inp-wrap" style="margin-bottom:22px"><label class="inp-label">Email</label><input class="inp" id="p-email" placeholder="email@gmail.com"></div>
+      <div id="profile-msg" style="font-size:13px;margin-bottom:12px;display:none"></div>
+      <div style="display:flex;gap:12px">
+        <button class="btn btn-ghost" onclick="showPassMode()">Сменить пароль</button>
+        <button class="btn btn-ghost" id="btn-edit-profile" onclick="enableProfileEdit()">Изменить</button>
+        <button class="btn btn-primary" id="btn-save-profile" onclick="saveProfile()" style="display:none">Сохранить</button>
+      </div>
+    </div>
+    <div id="profile-pass-mode" style="display:none">
+      <div style="margin-bottom:24px"><button class="btn btn-ghost btn-sm" onclick="hidePassMode()">‹ Назад</button></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+        <div class="inp-wrap"><label class="inp-label">Новый пароль</label><input type="password" class="inp" id="new-pass" placeholder="••••••••"></div>
+        <div class="inp-wrap"><label class="inp-label">Подтверждение</label><input type="password" class="inp" id="confirm-pass" placeholder="••••••••"></div>
+      </div>
+      <div class="inp-wrap" style="margin-bottom:20px"><label class="inp-label">Текущий пароль</label><input type="password" class="inp" id="old-pass" placeholder="••••••••"></div>
+      <div id="pass-msg" style="font-size:13px;margin-bottom:12px;display:none"></div>
+      <button class="btn btn-primary" onclick="changePassword()">Сохранить</button>
+    </div>
+  </div>
+
+</div>
       <!-- Schedule -->
       <div id="csec-schedule" style="display:none;height:100%;flex-direction:column">
-        <div style="padding:16px 24px 0;display:flex;justify-content:flex-end">
-          <button class="btn btn-primary btn-sm" onclick="openTrainingRequestModal()">+ Записаться на тренировку</button>
-        </div>
-        <div id="client-calendar" style="flex:1"></div>
-      </div>
+  <div style="padding:16px 24px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div style="display:flex;gap:6px">
+      <button class="pay-tab active" id="sched-filter-all" onclick="schedFilter('all',this)">Все</button>
+      <button class="pay-tab" id="sched-filter-scheduled" onclick="schedFilter('scheduled',this)">Предстоящие</button>
+      <button class="pay-tab" id="sched-filter-completed" onclick="schedFilter('completed',this)">Завершённые</button>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openTrainingRequestModal()">+ Записаться</button>
+  </div>
+  <div id="client-calendar" style="flex:1"></div>
+</div>
       <!-- Payments -->
       <div id="csec-payments" style="display:none;padding:24px">
         <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
-          <button class="btn btn-ghost btn-sm" onclick="openModal('modal-topup')">▤ Внести платёж</button>
-          <button class="btn btn-ghost btn-sm">📋 Прогноз оплаты</button>
-          <button class="btn btn-ghost btn-sm">↔ Сверка взаиморасчётов</button>
+            <button class="btn btn-ghost btn-sm" onclick="openModal('modal-topup')">+ Пополнить баланс</button>
         </div>
         <div class="pay-cards">
           <div class="pay-card">
@@ -453,20 +550,21 @@ tr:hover td{background:rgba(255,255,255,.02)}
             <div id="staff-nav-role" style="font-size:11px;color:var(--blue2);font-weight:600">Администратор</div>
           </div>
           <span style="color:var(--t3);font-size:12px">›</span>
+            <button onclick="toggleTheme()" id="theme-btn" style="background:none;border:none;cursor:pointer;font-size:16px;padding:2px;color:var(--t2)">🌙</button>
         </div>
       </div>
       <div style="padding:10px 8px;flex:1;display:flex;flex-direction:column;gap:2px">
-        <button class="nav-item" id="snav-profile"      onclick="staffNav('profile')"><span class="nav-icon">👤</span>Мой профиль</button>
-        <button class="nav-item active" id="snav-schedule"   onclick="staffNav('schedule')"><span class="nav-icon">🔥</span>Посещаемость</button>
-        <button class="nav-item" id="snav-shop"         onclick="staffNav('shop')"><span class="nav-icon">🛒</span>Магазин</button>
-        <button class="nav-item" id="snav-clients"      onclick="staffNav('clients')"><span class="nav-icon">👥</span>Клиенты</button>
-        <button class="nav-item" id="snav-applications" onclick="staffNav('applications')"><span class="nav-icon">📋</span>Заявки</button>
-        <button class="nav-item" id="snav-trainers"     onclick="staffNav('trainers')"><span class="nav-icon">💪</span>Тренера</button>
-        <button class="nav-item" id="snav-finance"      onclick="staffNav('finance')" style="display:none"><span class="nav-icon">📊</span>Финансы</button>
+        <button class="nav-item" id="snav-profile" onclick="staffNav('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Мой профиль</button>
+        <button class="nav-item active" id="snav-schedule" onclick="staffNav('schedule')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Посещаемость</button>
+        <button class="nav-item" id="snav-shop" onclick="staffNav('shop')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Магазин</button>
+        <button class="nav-item" id="snav-clients" onclick="staffNav('clients')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Клиенты</button>
+        <button class="nav-item" id="snav-applications" onclick="staffNav('applications')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Заявки</button>
+        <button class="nav-item" id="snav-trainers" onclick="staffNav('trainers')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Тренера</button>
+        <button class="nav-item" id="snav-finance" onclick="staffNav('finance')" style="display:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Финансы</button>
       </div>
       <div style="padding:0 8px;display:flex;flex-direction:column;gap:3px">
-        <button class="nav-item" onclick="toggleAI()"><span class="nav-icon">🤖</span>ИИ Спортсмен</button>
-        <button class="nav-item" onclick="logout()" style="color:var(--t3)" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--t3)'"><span class="nav-icon">🚪</span>Выйти</button>
+        <button class="nav-item" onclick="toggleAI()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>ИИ Спортсмен</button>
+        <button class="nav-item" onclick="logout()" style="color:var(--t3)" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--t3)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Выйти</button>
       </div>
     </div>
     <div class="dash-main" id="staff-main">
@@ -810,12 +908,19 @@ function opLabel(s){return{income:'Доход',expense:'Расход',refund:'В
 function roleLabel(r){return{client:'Клиент',manager:'Менеджер',admin:'Администратор'}[r]||r;}
 function svcLabel(s){return{subscription:'Абонемент',training:'Тренировка',product:'Товар',deposit:'Пополнение'}[s]||s;}
 
-function toast(msg,type='success'){
-  const el=document.createElement('div');
-  el.className='toast '+type;
-  el.textContent=(type==='success'?'✅':'❌')+' '+msg;
+function toast(msg, type='success') {
+  const el = document.createElement('div');
+  const isErr = type === 'error';
+  el.style.cssText = 'position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--bg2);border:1px solid '+(isErr?'var(--red)':'var(--green)')+';border-radius:var(--r2);padding:14px 18px;font-size:14px;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:fadeUp .25s ease;display:flex;align-items:center;gap:12px;max-width:320px';
+  el.innerHTML = '<div style="width:32px;height:32px;border-radius:50%;background:'+(isErr?'rgba(239,68,68,.15)':'rgba(34,197,94,.15)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'
+    +(isErr
+      ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+      :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>')
+    +'</div>'
+    +'<span style="color:var(--t1);flex:1;line-height:1.4">'+msg+'</span>'
+    +'<button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:16px;padding:0;flex-shrink:0;line-height:1">×</button>';
   document.body.appendChild(el);
-  setTimeout(()=>el.remove(),3200);
+  setTimeout(() => el.remove(), 3200);
 }
 function showErr(id,msg){const el=document.getElementById(id);if(el){el.textContent=msg;el.style.display='block';}}
 function hideErr(id){const el=document.getElementById(id);if(el)el.style.display='none';}
@@ -889,6 +994,7 @@ async function submitLogin(){
 
 function logout(){
   if(_pollingInterval)clearInterval(_pollingInterval);
+  if(_clientPollingInterval) clearInterval(_clientPollingInterval);
   state.user=null;state.token=null;
   localStorage.removeItem('sfedu_auth');
   showPage('page-landing');
@@ -937,7 +1043,6 @@ function populateClientUI(){
   document.getElementById('c-avatar').textContent=ini;
   document.getElementById('c-firstname').textContent=u.full_name.split(' ')[0]||'';
   document.getElementById('c-balance').textContent=fmtMoney(u.balance);
-  document.getElementById('c-visits').textContent=u.visits||0;
   document.getElementById('profile-big-avatar').textContent=ini;
   document.getElementById('profile-fullname').textContent=u.full_name;
   document.getElementById('p-fullname').value=u.full_name;
@@ -951,6 +1056,67 @@ function populateClientUI(){
   });
   document.getElementById('btn-save-profile').style.display='none';
   document.getElementById('btn-edit-profile').style.display='inline-flex';
+  loadClientStats();
+}
+
+async function loadClientStats() {
+  // Скелетон пока грузится
+  document.getElementById('stat-visits').textContent = '—';
+  document.getElementById('stat-sessions').textContent = '—';
+  document.getElementById('stat-sub-expires').textContent = '—';
+  const nextEl = document.getElementById('stat-next-training');
+  nextEl.textContent = 'Загрузка...';
+  nextEl.style.color = 'var(--t2)';
+  const weekEl = document.getElementById('stat-week');
+  if(weekEl) weekEl.textContent = '—';
+
+  try {
+    document.getElementById('stat-visits').textContent = state.user?.visits || 0;
+
+    const subs = await GET('/shop/my-subscriptions');
+    const activeSub = (subs||[]).find(s => s.is_active);
+    if(activeSub) {
+      document.getElementById('stat-sessions').textContent = activeSub.sessions_left ?? '∞';
+      const exp = new Date(activeSub.end_date);
+      const daysLeft = Math.ceil((exp - new Date()) / 864e5);
+      const el = document.getElementById('stat-sub-expires');
+      el.textContent = fmtDate(activeSub.end_date);
+      el.style.color = daysLeft <= 3 ? 'var(--red)' : daysLeft <= 7 ? 'var(--yellow)' : 'var(--green)';
+      if(daysLeft <= 3 && daysLeft > 0) {
+        toast('Абонемент истекает через '+daysLeft+' дн. Продлите его в Магазине.', 'error');
+      }
+    } else {
+      document.getElementById('stat-sessions').textContent = '0';
+      const el = document.getElementById('stat-sub-expires');
+      el.textContent = 'Нет'; el.style.color = 'var(--t3)';
+    }
+
+    const now = new Date();
+    const from = now.toISOString().slice(0,10);
+    const to = new Date(now.getFullYear(), now.getMonth()+2, 0).toISOString().slice(0,10);
+    const trainings = await GET('/schedule?date_from='+from+'&date_to='+to);
+
+    const upcoming = (trainings||[])
+      .filter(t => t.status==='scheduled' && new Date(t.start_time) > now)
+      .sort((a,b) => new Date(a.start_time) - new Date(b.start_time));
+    if(upcoming.length) {
+      nextEl.textContent = upcoming[0].title + ' — ' + fmt(upcoming[0].start_time);
+      nextEl.style.color = 'var(--t1)';
+    } else {
+      nextEl.textContent = 'Нет запланированных тренировок';
+      nextEl.style.color = 'var(--t2)';
+    }
+
+    const dow2 = now.getDay()===0?6:now.getDay()-1;
+    const mon = new Date(now); mon.setDate(now.getDate()-dow2); mon.setHours(0,0,0,0);
+    const sun = new Date(mon); sun.setDate(mon.getDate()+6); sun.setHours(23,59,59,999);
+    const weekCount = (trainings||[]).filter(t => {
+      const d = new Date(t.start_time);
+      return d >= mon && d <= sun && t.status === 'completed';
+    }).length;
+    if(weekEl) weekEl.textContent = weekCount;
+
+  } catch {}
 }
 
 function enableProfileEdit(){
@@ -966,18 +1132,167 @@ async function refreshMe(){
   try{const u=await GET('/users/me');state.user=u;localStorage.setItem('sfedu_auth',JSON.stringify({user:u,token:state.token}));populateClientUI();}catch{}
 }
 
+let historyWeekOffset = 0;
+
+async function loadTrainingHistory() {
+  renderHistoryWeek();
+}
+
+async function renderHistoryWeek() {
+  const wrap = document.getElementById('history-list');
+
+  const now = new Date();
+  const dow = now.getDay() === 0 ? 6 : now.getDay() - 1;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - dow + historyWeekOffset * 7);
+  monday.setHours(0,0,0,0);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  sunday.setHours(23,59,59,999);
+
+  const pad = n => String(n).padStart(2,'0');
+  const fmt2 = d => pad(d.getDate())+'.'+pad(d.getMonth()+1);
+  const isCurrentWeek = historyWeekOffset === 0;
+
+  const DAY_NAMES_FULL = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+  const weekDays = Array.from({length:7},(_,i)=>{
+    const d = new Date(monday); d.setDate(monday.getDate()+i); return d;
+  });
+  const todayStr = now.toDateString();
+
+  // Навигация
+  let html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:10px">'
+    +'<button onclick="historyWeekOffset--;renderHistoryWeek()" style="background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:8px 18px;color:var(--t1);cursor:pointer;font-size:14px;font-weight:600;transition:all .2s" onmouseover="this.style.borderColor=\'var(--blue)\'" onmouseout="this.style.borderColor=\'var(--border)\'">‹ Назад</button>'
+    +'<div style="text-align:center">'
+    +'<div style="font-size:16px;font-weight:700">'+fmt2(monday)+' — '+fmt2(sunday)+'.'+sunday.getFullYear()+'</div>'
+    +(isCurrentWeek?'<div style="font-size:12px;color:var(--blue2);margin-top:2px">Текущая неделя</div>':'')
+    +'</div>'
+    +'<button onclick="historyWeekOffset++;renderHistoryWeek()" style="background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:8px 18px;color:var(--t1);cursor:pointer;font-size:14px;font-weight:600;transition:all .2s" onmouseover="this.style.borderColor=\'var(--blue)\'" onmouseout="this.style.borderColor=\'var(--border)\'">Вперёд ›</button>'
+    +'</div>';
+
+  wrap.innerHTML = html + '<div id="history-week-content"><p style="color:var(--t2);text-align:center;padding:20px">Загрузка...</p></div>';
+
+  try {
+    const from = monday.toISOString().slice(0,10);
+    const to   = sunday.toISOString().slice(0,10);
+    const data = await GET('/schedule?date_from='+from+'&date_to='+to);
+    const trainings = data || [];
+
+    // Собираем все уникальные часы когда есть тренировки
+    const hours = [...new Set(trainings.map(t => new Date(t.start_time).getHours()))].sort((a,b)=>a-b);
+    if(!hours.length) hours.push(...[9,10,11,12,13,14,15,16,17,18,19]);
+
+    const content = document.getElementById('history-week-content');
+    if(!content) return;
+
+    // Таблица
+    let table = '<div style="overflow-x:auto;border-radius:var(--r2);border:1px solid var(--border);background:var(--bg3)">'
+      +'<table style="width:100%;border-collapse:collapse;min-width:600px">'
+      // Заголовок
+      +'<thead><tr>'
+      +'<th style="padding:12px 16px;text-align:center;font-size:13px;color:var(--t2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);white-space:nowrap;min-width:70px">Время</th>';
+
+    weekDays.forEach((d,i)=>{
+      const isToday = d.toDateString() === todayStr;
+      table += '<th style="padding:12px 16px;text-align:center;border-bottom:1px solid var(--border);'+(i<6?'border-right:1px solid var(--border);':'')+'background:'+(isToday?'rgba(37,99,235,.08)':'transparent')+'">'
+        +'<div style="font-size:14px;font-weight:700;color:'+(isToday?'var(--blue2)':'var(--t1)')+'">'+DAY_NAMES_FULL[d.getDay()]+'</div>'
+        +'<div style="font-size:12px;color:var(--t2);margin-top:2px">'+fmt2(d)+' мая'+'</div>'
+        +(isToday?'<span style="display:inline-block;background:var(--blue);color:#fff;border-radius:20px;font-size:11px;padding:1px 8px;margin-top:3px;font-weight:600">Сегодня</span>':'')
+        +'</th>';
+    });
+    table += '</tr></thead><tbody>';
+
+    // Строки по часам
+    hours.forEach(h => {
+      const label = pad(h)+':00';
+      table += '<tr>'
+        +'<td style="padding:12px 16px;text-align:center;font-size:13px;color:var(--t2);font-weight:600;border-right:1px solid var(--border);border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:top">'+label+'</td>';
+
+      weekDays.forEach((d,i) => {
+        const dayTrainings = trainings.filter(t => {
+          const td = new Date(t.start_time);
+          return td.toDateString()===d.toDateString() && td.getHours()===h;
+        });
+        const isToday = d.toDateString() === todayStr;
+        table += '<td style="padding:8px;vertical-align:top;border-bottom:1px solid var(--border);'+(i<6?'border-right:1px solid var(--border);':'')+'background:'+(isToday?'rgba(37,99,235,.04)':'transparent')+';min-width:120px">';
+        dayTrainings.forEach(t => {
+          const color = t.status==='completed'?'34,197,94': t.status==='cancelled'?'239,68,68':'37,99,235';
+          const textColor = t.status==='completed'?'#4ade80': t.status==='cancelled'?'#f87171':'#60a5fa';
+          table += '<div style="background:rgba('+color+',.12);border-left:3px solid rgba('+color+',.8);border-radius:6px;padding:8px 10px;margin-bottom:4px;cursor:pointer" onclick="showTrainingDetail('+t.id+')">'
+            +'<div style="font-size:13px;font-weight:700;color:'+textColor+';margin-bottom:3px">'+t.title+'</div>'
+            +(t.trainer_name?'<div style="font-size:11px;color:var(--t2)">'+t.trainer_name+'</div>':'')
+            +'<div style="font-size:11px;color:var(--t3);margin-top:3px">'+new Date(t.start_time).toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})+' – '+new Date(t.end_time).toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})+'</div>'
+            +'</div>';
+        });
+        table += '</td>';
+      });
+      table += '</tr>';
+    });
+
+    table += '</tbody></table></div>';
+    content.innerHTML = table;
+
+  } catch {
+    const content = document.getElementById('history-week-content');
+    if(content) content.innerHTML = '<p style="color:var(--red);text-align:center;padding:20px">Ошибка загрузки</p>';
+  }
+}
+
 function clientNav(sec){
   ['profile','schedule','payments','shop','trainers'].forEach(s=>{
     document.getElementById('csec-'+s).style.display='none';
     document.getElementById('cnav-'+s).classList.remove('active');
   });
-  document.getElementById('csec-'+sec).style.display=sec==='schedule'?'flex':'block';
+  const csec=document.getElementById('csec-'+sec);
+  csec.style.display=sec==='schedule'?'flex':'block';
+  csec.style.animation='none';
+  csec.offsetHeight;
+  csec.style.animation='fadeUp .25s ease';
   document.getElementById('cnav-'+sec).classList.add('active');
   state.currentClientSection=sec;
-  if(sec==='schedule')loadClientSchedule();
+  if(sec==='schedule'){loadClientSchedule();startClientPolling();}
   if(sec==='payments')loadClientPayments();
   if(sec==='shop')loadShop();
   if(sec==='trainers')loadClientTrainers();
+}
+
+let _clientPollingInterval = null;
+let _prevClientTrainings = 0;
+
+function startClientPolling() {
+  if(_clientPollingInterval) clearInterval(_clientPollingInterval);
+  _clientPollingInterval = setInterval(async () => {
+    if(!state.user || state.user.role !== 'client') { clearInterval(_clientPollingInterval); return; }
+    try {
+      const reqs = await GET('/schedule/requests/my');
+      const approved = (reqs||[]).filter(r => r.status === 'scheduled').length;
+      if(approved > _prevClientTrainings && _prevClientTrainings !== 0) {
+        showClientNotification('Ваша заявка на тренировку принята! Проверьте расписание.');
+        loadClientSchedule();
+      }
+      _prevClientTrainings = approved;
+    } catch {}
+  }, 10000);
+}
+
+function showClientNotification(msg) {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;top:24px;right:24px;z-index:9999;background:var(--bg2);border:1px solid var(--green);border-radius:var(--r2);padding:16px 20px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:fadeUp .3s ease;display:flex;align-items:flex-start;gap:12px';
+  el.innerHTML = '<div style="width:38px;height:38px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">'
+    +'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
+    +'</div>'
+    +'<div style="flex:1">'
+    +'<div style="font-size:14px;font-weight:700;margin-bottom:4px;color:var(--t1)">Заявка принята</div>'
+    +'<div style="font-size:13px;color:var(--t2);line-height:1.5">'+msg+'</div>'
+    +'</div>'
+    +'<button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:18px;padding:0;flex-shrink:0;line-height:1">×</button>';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 6000);
+  if(Notification.permission==='granted') {
+    new Notification('SFEDU', {body: msg});
+  } else if(Notification.permission!=='denied') {
+    Notification.requestPermission().then(p => { if(p==='granted') new Notification('SFEDU', {body: msg}); });
+  }
 }
 
 async function saveProfile(){
@@ -1037,7 +1352,16 @@ async function loadClientPayments(){
 function renderPaymentsTable(list,tbodyId){
   const tb=document.getElementById(tbodyId);
   if(!list||!list.length){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--t3);padding:24px">Нет данных</td></tr>';return;}
-  tb.innerHTML=list.map(p=>'<tr><td>'+fmtDate(p.created_at)+'</td><td>'+(p.client_name||state.user?.full_name||'—')+'</td><td style="font-weight:700;color:'+(p.operation_type==='income'?'var(--green)':'var(--red)')+'">'+fmtMoney(p.amount)+' ₽</td><td>'+opLabel(p.operation_type)+'</td></tr>').join('');
+  tb.innerHTML=list.map(p=>'<tr>'
+    +'<td>'+fmtDate(p.created_at)+'</td>'
+    +'<td>'+(p.client_name||state.user?.full_name||'—')+'</td>'
+    +'<td style="font-weight:700;color:'+(p.operation_type==='income'?'var(--green)':'var(--red)')+'">'+fmtMoney(p.amount)+' ₽</td>'
+    +'<td>'+(p.operation_type==='income'
+      ?'<span class="badge badge-green">Пополнение</span>'
+      :p.operation_type==='refund'
+      ?'<span class="badge badge-yellow">Возврат</span>'
+      :'<span class="badge badge-red">Списание</span>')+'</td>'
+    +'</tr>').join('');
 }
 
 function renderSubsTable(list){
@@ -1047,6 +1371,8 @@ function renderSubsTable(list){
 }
 
 async function loadShop(){
+  const grid=document.getElementById('shop-grid');
+  if(grid) grid.innerHTML=Array(4).fill('<div class="card" style="padding:20px;display:flex;flex-direction:column;gap:10px"><div class="skeleton" style="height:32px;width:32px;border-radius:8px"></div><div class="skeleton" style="height:16px;width:80%"></div><div class="skeleton" style="height:12px"></div><div class="skeleton" style="height:12px;width:60%"></div><div class="skeleton" style="height:28px;width:50%;margin-top:8px"></div><div class="skeleton" style="height:36px;margin-top:4px;border-radius:var(--r)"></div></div>').join('');
   try{const products=await GET('/shop/products');state.products=products||[];renderShopGrid(state.products,'shop-grid',false);}catch{}
 }
 
@@ -1061,16 +1387,39 @@ function shopFilter(cat,btn){
 function renderShopGrid(list,gridId,isStaff){
   const grid=document.getElementById(gridId);
   if(!list||!list.length){grid.innerHTML='<p style="color:var(--t2);padding:20px">Товаров нет</p>';return;}
-  grid.innerHTML=list.map(p=>'<div class="shop-card">'
-    +'<div style="font-size:28px;margin-bottom:12px">'+(p.category==='subscription'?'🎫':'🏋️')+'</div>'
-    +'<div style="font-size:15px;font-weight:700;margin-bottom:6px">'+p.name+'</div>'
-    +'<div style="font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5">'+(p.description||'')+'</div>'
-    +(p.sessions_count?'<div style="font-size:12px;color:var(--t3);margin-bottom:6px">'+p.sessions_count+' занятий · '+p.duration_days+' дней</div>':'')
-    +'<div class="shop-price" style="margin-bottom:12px">'+fmtMoney(p.price)+' ₽</div>'
-    +(isStaff
-      ?'<div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="openEditProductModal('+JSON.stringify(p).replace(/"/g,"'")+'_SKIP)">Изменить</button><button class="btn btn-danger btn-sm" onclick="deleteProduct('+p.id+')">Удалить</button></div>'
-      :'<button class="btn btn-primary btn-sm" style="width:100%" onclick="buyProduct('+p.id+')">Купить</button>')
-    +'</div>').join('');
+  grid.innerHTML=list.map(p=>{
+    const icon=p.category==='subscription'
+      ?'<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(37,99,235,0.2)"/><path d="M6 12h20M6 16h20M10 20h12" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/></svg>'
+      :'<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(34,197,94,0.15)"/><path d="M10 22V14m6 8V10m6 12V17" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"/></svg>';
+    const btns=isStaff
+      ?'<div style="display:flex;gap:8px;margin-top:14px">'
+        +'<button onclick="openEditProductModal_v2('+p.id+')" style="flex:1;padding:9px 0;background:transparent;border:1px solid var(--border);border-radius:var(--r);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;transition:all .25s" onmouseover="this.style.borderColor=\'var(--blue)\';this.style.color=\'var(--t1)\';this.style.background=\'rgba(37,99,235,.07)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.color=\'var(--t2)\';this.style.background=\'transparent\'">Изменить</button>'
+        +'<button onclick="deleteProduct('+p.id+')" style="flex:1;padding:9px 0;background:transparent;border:1px solid rgba(239,68,68,.3);border-radius:var(--r);color:#f87171;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s" onmouseover="this.style.background=\'rgba(239,68,68,.1)\';this.style.borderColor=\'#ef4444\'" onmouseout="this.style.background=\'transparent\';this.style.borderColor=\'rgba(239,68,68,.3)\'">Удалить</button>'
+        +'</div>'
+      :'<button onclick="buyProduct('+p.id+')" style="width:100%;margin-top:14px;padding:10px 0;background:var(--blue);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s;letter-spacing:.02em" onmouseover="this.style.background=\'#1d4ed8\';this.style.transform=\'translateY(-1px)\';this.style.boxShadow=\'0 4px 16px rgba(37,99,235,.4)\'" onmouseout="this.style.background=\'var(--blue)\';this.style.transform=\'none\';this.style.boxShadow=\'none\'">Купить</button>';
+    return '<div class="shop-card" style="display:flex;flex-direction:column">'
+      +'<div style="margin-bottom:14px">'+icon+'</div>'
+      +'<div style="font-size:15px;font-weight:700;margin-bottom:6px">'+p.name+'</div>'
+      +'<div style="font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5;flex:1">'+(p.description||'')+'</div>'
+      +(p.sessions_count?'<div style="font-size:12px;color:var(--t3);margin-bottom:8px;background:var(--bg4);padding:4px 10px;border-radius:20px;display:inline-block">'+p.sessions_count+' занятий · '+p.duration_days+' дней</div>':'')
+      +'<div style="font-size:24px;font-weight:800;color:var(--blue2);font-family:var(--f2);margin-bottom:4px">'+fmtMoney(p.price)+' ₽</div>'
+      +btns
+      +'</div>';
+  }).join('');
+}
+
+async function openEditProductModal_v2(id){
+  const p=state.products.find(x=>x.id===id);
+  if(!p)return;
+  state.editingProductId=p.id;
+  document.getElementById('cp-modal-title').textContent='Изменить товар';
+  document.getElementById('cp-name').value=p.name;
+  document.getElementById('cp-price').value=p.price;
+  document.getElementById('cp-cat').value=p.category;
+  document.getElementById('cp-desc').value=p.description||'';
+  document.getElementById('cp-days').value=p.duration_days||'';
+  document.getElementById('cp-sessions').value=p.sessions_count||'';
+  toggleSubFields();hideErr('cp-err');openModal('modal-create-product');
 }
 
 async function buyProduct(id){
@@ -1150,10 +1499,12 @@ function calNext(cid){
   renderCalendar(cid);
 }
 
-function getTrainingsForDay(date){
-  return state.trainings.filter(t=>{
-    const td=new Date(t.start_time);
-    return td.getFullYear()===date.getFullYear()&&td.getMonth()===date.getMonth()&&td.getDate()===date.getDate();
+function getTrainingsForDay(date) {
+  return state.trainings.filter(t => {
+    const td = new Date(t.start_time);
+    const matchDay = td.getFullYear()===date.getFullYear() && td.getMonth()===date.getMonth() && td.getDate()===date.getDate();
+    const matchStatus = _schedStatusFilter === 'all' || t.status === _schedStatusFilter;
+    return matchDay && matchStatus;
   });
 }
 
@@ -1275,9 +1626,26 @@ async function submitEditTraining(){
 }
 
 async function deleteTraining(id){
-  if(!confirm('Удалить занятие?'))return;
-  try{await DELETE('/schedule/'+id);closeModal('modal-training-detail');toast('Занятие удалено');loadStaffSchedule();}
-  catch(e){toast(e.message,'error');}
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2000;display:flex;align-items:center;justify-content:center';
+  overlay.innerHTML='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:32px;width:380px;box-shadow:0 24px 64px rgba(0,0,0,.6)">'
+    +'<h3 style="font-size:18px;font-weight:700;margin-bottom:10px">Удалить занятие?</h3>'
+    +'<p style="font-size:14px;color:var(--t2);margin-bottom:28px">Это действие нельзя отменить.</p>'
+    +'<div style="display:flex;gap:10px;justify-content:flex-end">'
+    +'<button id="del-cancel" class="btn btn-ghost">Отмена</button>'
+    +'<button id="del-confirm" class="btn btn-danger" style="background:var(--red);color:#fff;border:none">Удалить</button>'
+    +'</div></div>';
+  document.body.appendChild(overlay);
+  document.getElementById('del-cancel').onclick=()=>overlay.remove();
+  document.getElementById('del-confirm').onclick=async()=>{
+    overlay.remove();
+    try{
+      await DELETE('/schedule/'+id);
+      closeModal('modal-training-detail');
+      toast('Занятие удалено');
+      loadStaffSchedule();
+    }catch(e){toast(e.message,'error');}
+  };
 }
 
 async function loadClientSchedule(){
@@ -1288,6 +1656,15 @@ async function loadClientSchedule(){
     const data=await GET('/schedule?date_from='+from+'&date_to='+to);
     state.trainings=data||[];
   }catch{state.trainings=[];}
+  renderCalendar('client-calendar');
+}
+
+let _schedStatusFilter = 'all';
+
+function schedFilter(status, btn) {
+  _schedStatusFilter = status;
+  document.querySelectorAll('[id^="sched-filter-"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   renderCalendar('client-calendar');
 }
 
@@ -1361,10 +1738,15 @@ function startPolling(){
       updateNavBadge('snav-applications',newApps);
       if(state.currentStaffSection==='schedule')renderPendingRequests(requests||[]);
       if(state.currentStaffSection==='applications'){state.applications=apps||[];renderApplications();}
+      if(state.currentStaffSection==='trainers'){
+        const trainers=await GET('/trainers');
+        state.trainers=trainers||[];
+        renderStaffTrainers();
+    }
       const prevReqs=parseInt(localStorage.getItem('_prevReqs')||'0');
       const prevApps=parseInt(localStorage.getItem('_prevApps')||'0');
-      if(newReqs>prevReqs)toast('🔔 Новая заявка на тренировку (+'+(newReqs-prevReqs)+')');
-      if(newApps>prevApps)toast('🔔 Новая заявка на регистрацию (+'+(newApps-prevApps)+')');
+    if(newReqs>prevReqs)toast('Новая заявка на тренировку (+'+(newReqs-prevReqs)+')');
+    if(newApps>prevApps)toast('Новая заявка на регистрацию (+'+(newApps-prevApps)+')');
       localStorage.setItem('_prevReqs',newReqs);localStorage.setItem('_prevApps',newApps);
     }catch{}
   },15000);
@@ -1386,7 +1768,13 @@ function staffNav(sec){
     const el=document.getElementById('ssec-'+s);if(el)el.style.display='none';
     const nav=document.getElementById('snav-'+s);if(nav)nav.classList.remove('active');
   });
-  const el=document.getElementById('ssec-'+sec);if(el)el.style.display='block';
+  const el=document.getElementById('ssec-'+sec);
+  if(el){
+    el.style.display='block';
+    el.style.animation='none';
+    el.offsetHeight;
+    el.style.animation='fadeUp .25s ease';
+  }
   const nav=document.getElementById('snav-'+sec);if(nav)nav.classList.add('active');
   state.currentStaffSection=sec;
   if(sec==='schedule')loadStaffSchedule();
@@ -1507,6 +1895,8 @@ async function submitRejectRequest(){
 
 // CLIENTS
 async function loadClients(){
+  const tb=document.getElementById('clients-tbody');
+  if(tb) tb.innerHTML='<tr>'+Array(8).fill('<td><div class="skeleton" style="height:18px;margin:4px 0"></div></td>').join('')+'</tr>'.repeat(5);
   try{
     const [users,trainers]=await Promise.all([GET('/users'),GET('/trainers')]);
     state.clients=users||[];state.trainers=trainers||[];renderClientsTable();
@@ -1703,6 +2093,8 @@ async function quickRejectApp(id){
 
 // TRAINERS STAFF
 async function loadStaffTrainers(){
+  const grid=document.getElementById('staff-trainers-grid');
+  if(grid) grid.innerHTML=Array(3).fill('<div class="card" style="height:320px"><div class="skeleton" style="height:200px;border-radius:0"></div><div style="padding:18px;display:flex;flex-direction:column;gap:10px"><div class="skeleton" style="height:16px;width:70%"></div><div class="skeleton" style="height:12px;width:50%"></div><div class="skeleton" style="height:12px;width:90%"></div></div></div>').join('');
   try{const data=await GET('/trainers');state.trainers=data||[];renderStaffTrainers();}catch{}
 }
 
@@ -1962,6 +2354,20 @@ function addAIMsg(text,role){
 }
 
 renderMiniCal();
+
+function toggleTheme() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+  const icon = isLight ? '🌙' : '☀️';
+  document.querySelectorAll('[id^="theme-btn"]').forEach(b => b.textContent = icon);
+  localStorage.setItem('sfedu_theme', isLight ? 'dark' : 'light');
+}
+
+const savedTheme = localStorage.getItem('sfedu_theme');
+if(savedTheme === 'light') {
+  document.documentElement.setAttribute('data-theme', 'light');
+  document.querySelectorAll('[id^="theme-btn"]').forEach(b => b.textContent = '☀️');
+}
 </script>
 </body>
 </html>

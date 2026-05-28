@@ -10,10 +10,11 @@ import (
 )
 
 type ScheduleService struct {
-	trainingRepo repository.TrainingRepository
-	requestRepo  repository.TrainingRequestRepository
-	userRepo     repository.UserRepository
-	paymentRepo  repository.PaymentRepository
+	trainingRepo     repository.TrainingRepository
+	requestRepo      repository.TrainingRequestRepository
+	userRepo         repository.UserRepository
+	paymentRepo      repository.PaymentRepository
+	subscriptionRepo repository.SubscriptionRepository
 }
 
 func NewScheduleService(
@@ -21,12 +22,14 @@ func NewScheduleService(
 	requestRepo repository.TrainingRequestRepository,
 	userRepo repository.UserRepository,
 	paymentRepo repository.PaymentRepository,
+	subscriptionRepo repository.SubscriptionRepository,
 ) *ScheduleService {
 	return &ScheduleService{
-		trainingRepo: trainingRepo,
-		requestRepo:  requestRepo,
-		userRepo:     userRepo,
-		paymentRepo:  paymentRepo,
+		trainingRepo:     trainingRepo,
+		requestRepo:      requestRepo,
+		userRepo:         userRepo,
+		paymentRepo:      paymentRepo,
+		subscriptionRepo: subscriptionRepo,
 	}
 }
 
@@ -65,10 +68,6 @@ func (s *ScheduleService) ApproveRequest(ctx context.Context, requestID int64, i
 	if err := s.requestRepo.UpdateStatus(ctx, requestID, domain.TrainingStatusScheduled); err != nil {
 		return nil, err
 	}
-	// Инкрементируем посещения
-	if err := s.userRepo.IncrementVisits(ctx, input.ClientID); err != nil {
-		return nil, err
-	}
 	return training, nil
 }
 
@@ -94,7 +93,28 @@ func (s *ScheduleService) UpdateTraining(ctx context.Context, trainingID int64, 
 			return nil, fmt.Errorf("%w: end time must be after start time", domain.ErrInvalidInput)
 		}
 	}
-	return s.trainingRepo.Update(ctx, trainingID, input)
+
+	// Получаем текущее занятие чтобы проверить смену статуса
+	current, err := s.trainingRepo.GetByID(ctx, trainingID)
+	if err != nil {
+		return nil, err
+	}
+
+	training, err := s.trainingRepo.Update(ctx, trainingID, input)
+	if err != nil {
+		return nil, err
+	}
+
+	// Если статус изменился на "completed" — списываем занятие с абонемента
+	if current.Status != domain.TrainingStatusCompleted && input.Status == domain.TrainingStatusCompleted {
+		sub, err := s.subscriptionRepo.GetActiveByClient(ctx, training.ClientID)
+		if err == nil && sub != nil {
+			_ = s.subscriptionRepo.DecrementSessions(ctx, sub.ID)
+			_ = s.userRepo.IncrementVisits(ctx, training.ClientID)
+		}
+	}
+
+	return training, nil
 }
 
 // CancelTraining — отменить занятие
