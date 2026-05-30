@@ -15,7 +15,8 @@ type Config struct {
 	JWTTokenTTL   time.Duration
 	BcryptCost    int
 	CORSOrigin    string
-	AdminPassword string // bcrypt-хеш пароля начального администратора
+	AdminPassword string
+	RedisAddr     string
 }
 
 // Load — загрузка конфигурации из переменных окружения
@@ -29,8 +30,8 @@ func Load() (*Config, error) {
 		BcryptCost:    getEnvInt("BCRYPT_COST", 12),
 		CORSOrigin:    getEnv("CORS_ALLOWED_ORIGIN", "http://localhost:3000"),
 		AdminPassword: getEnv("ADMIN_PASSWORD", ""),
+		RedisAddr:     getEnv("REDIS_ADDR", "localhost:6379"),
 	}
-
 	if cfg.DatabaseURL == "" {
 		return nil, fmt.Errorf("DATABASE_URL is required")
 	}
@@ -40,7 +41,6 @@ func Load() (*Config, error) {
 	if cfg.AdminPassword == "" {
 		return nil, fmt.Errorf("ADMIN_PASSWORD is required")
 	}
-
 	return cfg, nil
 }
 
