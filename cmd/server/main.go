@@ -21,6 +21,7 @@ import (
 	"github.com/sfedu-crm/internal/middleware"
 	pgrepo "github.com/sfedu-crm/internal/repository/postgres"
 	"github.com/sfedu-crm/internal/service"
+	rediscache "github.com/sfedu-crm/pkg/cache"
 	"github.com/sfedu-crm/pkg/hash"
 	"github.com/sfedu-crm/pkg/jwt"
 	"github.com/sfedu-crm/pkg/logger"
@@ -56,6 +57,14 @@ func main() {
 		os.Exit(1)
 	}
 	log.Info("connected to database")
+
+	// Redis cache
+	cache := rediscache.NewRedisCache(cfg.RedisAddr)
+	if err := cache.Ping(context.Background()); err != nil {
+		log.Warn("redis not available, running without cache", "err", err)
+	} else {
+		log.Info("redis connected")
+	}
 
 	// ---- Миграции ----
 	m, err := migrate.New("file://migrations", cfg.DatabaseURL)
@@ -95,11 +104,11 @@ func main() {
 
 	// ---- Сервисы ----
 	authSvc := service.NewAuthService(userRepo, appRepo, tokenMgr, hasher, cfg.JWTTokenTTL)
-	userSvc := service.NewUserService(userRepo, appRepo, hasher)
-	trainerSvc := service.NewTrainerService(trainerRepo)
+	userSvc := service.NewUserService(userRepo, appRepo, hasher, cache)
+	trainerSvc := service.NewTrainerService(trainerRepo, cache)
 	scheduleSvc := service.NewScheduleService(trainingRepo, trainingReqRepo, userRepo, paymentRepo, subscriptionRepo)
 	financeSvc := service.NewFinanceService(paymentRepo, userRepo)
-	shopSvc := service.NewShopService(productRepo, subscriptionRepo, paymentRepo, userRepo)
+	shopSvc := service.NewShopService(productRepo, subscriptionRepo, paymentRepo, userRepo, cache)
 	aiSvc := service.NewAIAssistantService()
 
 	// ---- Хэндлеры ----

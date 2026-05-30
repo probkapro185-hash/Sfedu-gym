@@ -3,38 +3,57 @@ package service
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/sfedu-crm/internal/domain"
 	"github.com/sfedu-crm/internal/repository"
 	"github.com/sfedu-crm/internal/validator"
+	pkgcache "github.com/sfedu-crm/pkg/cache"
 	"github.com/sfedu-crm/pkg/hash"
+)
+
+const (
+	usersCacheKey = "users:list"
+	usersTTL      = 2 * time.Minute
 )
 
 type UserService struct {
 	userRepo repository.UserRepository
 	appRepo  repository.ApplicationRepository
 	hasher   *hash.Bcrypt
+	cache    *pkgcache.RedisCache
 }
 
 func NewUserService(
 	userRepo repository.UserRepository,
 	appRepo repository.ApplicationRepository,
 	hasher *hash.Bcrypt,
+	cache *pkgcache.RedisCache,
 ) *UserService {
-	return &UserService{userRepo: userRepo, appRepo: appRepo, hasher: hasher}
+	return &UserService{userRepo: userRepo, appRepo: appRepo, hasher: hasher, cache: cache}
 }
 
-// GetByID — получить пользователя по ID
 func (s *UserService) GetByID(ctx context.Context, id int64) (*domain.User, error) {
 	return s.userRepo.GetByID(ctx, id)
 }
 
-// List — список клиентов (для менеджера и админа)
 func (s *UserService) List(ctx context.Context, filter repository.UserFilter) ([]*domain.User, error) {
-	return s.userRepo.List(ctx, filter)
+	if s.cache != nil && filter.Role == nil && filter.Search == "" {
+		var cached []*domain.User
+		if err := s.cache.Get(ctx, usersCacheKey, &cached); err == nil {
+			return cached, nil
+		}
+	}
+	users, err := s.userRepo.List(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	if s.cache != nil && filter.Role == nil && filter.Search == "" {
+		_ = s.cache.Set(ctx, usersCacheKey, users, usersTTL)
+	}
+	return users, nil
 }
 
-// UpdateProfile — клиент редактирует свои данные
 func (s *UserService) UpdateProfile(ctx context.Context, id int64, input domain.UpdateUserInput) (*domain.User, error) {
 	if err := validator.ValidateFullName(input.FullName); err != nil {
 		return nil, err
@@ -45,10 +64,16 @@ func (s *UserService) UpdateProfile(ctx context.Context, id int64, input domain.
 	if err := validator.ValidateEmail(input.Email); err != nil {
 		return nil, err
 	}
-	return s.userRepo.Update(ctx, id, input)
+	user, err := s.userRepo.Update(ctx, id, input)
+	if err != nil {
+		return nil, err
+	}
+	if s.cache != nil {
+		_ = s.cache.Delete(ctx, usersCacheKey)
+	}
+	return user, nil
 }
 
-// ChangePassword — смена пароля пользователем
 func (s *UserService) ChangePassword(ctx context.Context, id int64, input domain.ChangePasswordInput) error {
 	user, err := s.userRepo.GetByID(ctx, id)
 	if err != nil {
@@ -64,7 +89,6 @@ func (s *UserService) ChangePassword(ctx context.Context, id int64, input domain
 	return s.userRepo.UpdatePassword(ctx, id, newHash)
 }
 
-// AdminResetPassword — сброс пароля администратором без старого пароля
 func (s *UserService) AdminResetPassword(ctx context.Context, targetUserID int64, newPassword string) error {
 	newHash, err := s.hasher.Hash(newPassword)
 	if err != nil {
@@ -73,7 +97,6 @@ func (s *UserService) AdminResetPassword(ctx context.Context, targetUserID int64
 	return s.userRepo.UpdatePassword(ctx, targetUserID, newHash)
 }
 
-// CreateUser — создание пользователя менеджером/админом
 func (s *UserService) CreateUser(ctx context.Context, input domain.CreateUserInput) (*domain.User, error) {
 	if err := validator.ValidateFullName(input.FullName); err != nil {
 		return nil, err
@@ -89,10 +112,16 @@ func (s *UserService) CreateUser(ctx context.Context, input domain.CreateUserInp
 		return nil, fmt.Errorf("userService.CreateUser hash: %w", err)
 	}
 	input.Password = passwordHash
-	return s.userRepo.Create(ctx, input)
+	user, err := s.userRepo.Create(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	if s.cache != nil {
+		_ = s.cache.Delete(ctx, usersCacheKey)
+	}
+	return user, nil
 }
 
-// ApproveApplication — принять заявку и создать клиента
 func (s *UserService) ApproveApplication(ctx context.Context, appID int64, password string) (*domain.User, error) {
 	app, err := s.appRepo.GetByID(ctx, appID)
 	if err != nil {
@@ -101,41 +130,47 @@ func (s *UserService) ApproveApplication(ctx context.Context, appID int64, passw
 	if app.Status != "pending" {
 		return nil, fmt.Errorf("%w: application already processed", domain.ErrInvalidInput)
 	}
-
 	user, err := s.CreateUser(ctx, domain.CreateUserInput{
 		FullName: app.FullName,
 		Phone:    app.Phone,
 		Email:    app.Email,
 		Password: password,
 		Role:     domain.RoleClient,
-		Gender:   domain.GenderMale, // по умолчанию, можно обновить позже
+		Gender:   domain.GenderMale,
 	})
 	if err != nil {
 		return nil, err
 	}
-
 	if err := s.appRepo.UpdateStatus(ctx, appID, "approved"); err != nil {
 		return nil, err
 	}
 	return user, nil
 }
 
-// SetActive — блокировка/разблокировка пользователя
 func (s *UserService) SetActive(ctx context.Context, id int64, active bool) error {
-	return s.userRepo.SetActive(ctx, id, active)
+	if err := s.userRepo.SetActive(ctx, id, active); err != nil {
+		return err
+	}
+	if s.cache != nil {
+		_ = s.cache.Delete(ctx, usersCacheKey)
+	}
+	return nil
 }
 
-// Delete — удаление пользователя (только админ)
 func (s *UserService) Delete(ctx context.Context, id int64) error {
-	return s.userRepo.Delete(ctx, id)
+	if err := s.userRepo.Delete(ctx, id); err != nil {
+		return err
+	}
+	if s.cache != nil {
+		_ = s.cache.Delete(ctx, usersCacheKey)
+	}
+	return nil
 }
 
-// ListApplications — список заявок на регистрацию
 func (s *UserService) ListApplications(ctx context.Context, status string) ([]*domain.ApplicationRequest, error) {
 	return s.appRepo.List(ctx, status)
 }
 
-// RejectApplication — отклонить заявку
 func (s *UserService) RejectApplication(ctx context.Context, appID int64) error {
 	return s.appRepo.UpdateStatus(ctx, appID, "rejected")
 }
