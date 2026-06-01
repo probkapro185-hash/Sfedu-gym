@@ -259,6 +259,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
   animation:shimmer 1.5s infinite;
   border-radius:var(--r);
 }
+input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
 </style>
 </head>
 <body>
@@ -266,62 +267,159 @@ tr:hover td{background:rgba(255,255,255,.02)}
 
 <!-- LANDING -->
 <div id="page-landing" class="page active">
-  <div id="landing">
+  <div id="landing" style="height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory">
+
     <nav class="land-nav">
       <div class="topbar-logo" style="gap:9px">
         <svg width="30" height="30" viewBox="0 0 32 32"><defs><linearGradient id="lg0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#60a5fa"/><stop offset="100%" style="stop-color:#1d4ed8"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg0)"/><path d="M10 9h8a3 3 0 010 6h-6a3 3 0 000 6h8" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span style="font-family:var(--f2);font-size:20px;font-weight:700;color:#3b82f6;letter-spacing:.08em">SFEDU</span>
       </div>
       <div class="land-nav-links">
-        <span class="land-nav-link" onclick="scrollToSection('services')">Услуги</span>
-        <span class="land-nav-link" onclick="scrollToSection('schedule-preview')">Расписание</span>
-        <span class="land-nav-link" onclick="showPage('page-trainers')">Тренера</span>
-        <span class="land-nav-link" onclick="scrollToSection('contacts')">Контакты</span>
+        <span class="land-nav-link" onclick="document.getElementById('sec-hero').scrollIntoView({behavior:'smooth'})">Главная</span>
+        <span class="land-nav-link" onclick="document.getElementById('sec-services').scrollIntoView({behavior:'smooth'})">Услуги</span>
+        <span class="land-nav-link" onclick="document.getElementById('sec-schedule').scrollIntoView({behavior:'smooth'})">Расписание</span>
+        <span class="land-nav-link" onclick="document.getElementById('sec-trainers-land').scrollIntoView({behavior:'smooth'})">Тренера</span>
+        <span class="land-nav-link" onclick="document.getElementById('sec-contacts').scrollIntoView({behavior:'smooth'})">Контакты</span>
       </div>
       <button class="btn btn-outline" onclick="openModal('modal-login')">Войти</button>
     </nav>
-    <section class="hero">
-      <div class="hero-bg"></div><div class="hero-grid"></div>
-      <div class="hero-glow1"></div><div class="hero-glow2"></div>
-      <div class="hero-content">
-        <h1 class="hero-h1 fade-up">Ты можешь больше,<br><span style="color:var(--blue2)">чем думаешь</span></h1>
-        <p class="hero-sub fade-up s1">Инвестиция в себя, которая окупится на <span style="color:var(--blue2);font-weight:700">100%</span></p>
-        <div class="hero-btns fade-up s2">
-          <button class="btn btn-primary" style="font-size:15px;padding:12px 28px" onclick="openModal('modal-apply')">Записаться</button>
-          <button class="btn btn-outline" style="font-size:15px;padding:12px 28px" onclick="openModal('modal-login')">Войти</button>
+
+    <!-- HERO -->
+    <section id="sec-hero" style="scroll-snap-align:start;height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;flex-shrink:0;padding-top:62px">
+      <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1800&q=80');background-size:cover;background-position:center 30%;filter:brightness(.28)"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(108deg,rgba(9,9,15,.98) 40%,rgba(9,9,15,.25) 100%)"></div>
+      <div style="position:absolute;inset:0;opacity:.03;background-image:linear-gradient(#2563eb 1px,transparent 1px),linear-gradient(90deg,#2563eb 1px,transparent 1px);background-size:44px 44px"></div>
+      <div style="position:absolute;top:20%;right:20%;width:500px;height:500px;border-radius:50%;background:rgba(37,99,235,.07);filter:blur(120px);pointer-events:none"></div>
+      <div style="position:relative;z-index:2;padding:0 80px;max-width:780px">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.35);border-radius:30px;padding:6px 18px;font-size:13px;color:var(--blue2);font-weight:600;margin-bottom:28px;animation:fadeUp .5s ease both">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Спортивный зал SFEDU — Ростов-на-Дону
+        </div>
+        <h1 style="font-family:var(--f2);font-size:clamp(44px,6.5vw,84px);font-weight:700;line-height:1.02;margin-bottom:20px;letter-spacing:-.01em;animation:fadeUp .5s .1s ease both">Ты можешь больше,<br><span style="color:var(--blue2)">чем думаешь</span></h1>
+        <p style="font-size:18px;color:var(--t2);line-height:1.7;margin-bottom:42px;max-width:500px;animation:fadeUp .5s .18s ease both">Инвестиция в себя, которая окупится на <span style="color:var(--blue2);font-weight:700">100%</span></p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .5s .26s ease both">
+          <button class="btn btn-primary" style="font-size:15px;padding:13px 34px;border-radius:var(--r2);box-shadow:0 0 28px rgba(37,99,235,.45)" onclick="openModal('modal-apply')">Записаться</button>
+          <button class="btn btn-outline" style="font-size:15px;padding:13px 34px;border-radius:var(--r2)" onclick="openModal('modal-login')">Войти в кабинет</button>
+        </div>
+        <div style="display:flex;gap:40px;margin-top:56px;animation:fadeUp .5s .34s ease both">
+          <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--t1)">500+</div><div style="font-size:13px;color:var(--t2);margin-top:3px">Клиентов</div></div>
+          <div style="width:1px;background:var(--border)"></div>
+          <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--t1)">12</div><div style="font-size:13px;color:var(--t2);margin-top:3px">Тренеров</div></div>
+          <div style="width:1px;background:var(--border)"></div>
+          <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--t1)">5 лет</div><div style="font-size:13px;color:var(--t2);margin-top:3px">Опыта</div></div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;opacity:.6" onclick="document.getElementById('sec-services').scrollIntoView({behavior:'smooth'})">
+        <span style="font-size:11px;color:var(--t3);letter-spacing:.12em;text-transform:uppercase">Листать вниз</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </section>
+
+    <!-- УСЛУГИ -->
+    <section id="sec-services" style="scroll-snap-align:start;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px;background:var(--bg);flex-shrink:0;overflow:hidden;position:relative">
+      <div style="position:absolute;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:rgba(37,99,235,.04);filter:blur(80px);pointer-events:none"></div>
+      <div style="text-align:center;margin-bottom:52px">
+        <div style="font-size:13px;color:var(--blue2);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px">Что мы предлагаем</div>
+        <h2 style="font-family:var(--f2);font-size:42px;font-weight:700">Наши <span style="color:var(--blue2)">услуги</span></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;margin:0 auto;width:100%">
+        <div class="srv-card" style="display:flex;flex-direction:column;gap:14px">
+          <div style="width:46px;height:46px;border-radius:12px;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div class="srv-title">Персональные тренировки</div>
+          <div class="srv-desc">Индивидуальная программа — тренер работает только с вами</div>
+        </div>
+        <div class="srv-card" style="display:flex;flex-direction:column;gap:14px">
+          <div style="width:46px;height:46px;border-radius:12px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div class="srv-title">Групповые занятия</div>
+          <div class="srv-desc">Энергия команды, профессиональный тренер, результат</div>
+        </div>
+        <div class="srv-card" style="display:flex;flex-direction:column;gap:14px">
+          <div style="width:46px;height:46px;border-radius:12px;background:rgba(245,158,11,.12);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/></svg></div>
+          <div class="srv-title">Гибкое расписание</div>
+          <div class="srv-desc">Запись, перенос и отмена занятий онлайн 24/7</div>
+        </div>
+        <div class="srv-card" style="display:flex;flex-direction:column;gap:14px">
+          <div style="width:46px;height:46px;border-radius:12px;background:rgba(239,68,68,.12);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+          <div class="srv-title">Нутрициология</div>
+          <div class="srv-desc">Программа питания от профессиональных диетологов</div>
+        </div>
+        <div class="srv-card" style="display:flex;flex-direction:column;gap:14px">
+          <div style="width:46px;height:46px;border-radius:12px;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <div class="srv-title">Рельеф тела</div>
+          <div class="srv-desc">Специализированные программы по формированию рельефа</div>
+        </div>
+        <div class="srv-card" style="display:flex;flex-direction:column;gap:14px">
+          <div style="width:46px;height:46px;border-radius:12px;background:rgba(139,92,246,.12);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="srv-title">Контроль прогресса</div>
+          <div class="srv-desc">Отслеживайте результаты в личном кабинете</div>
         </div>
       </div>
     </section>
-    <section class="land-section" id="services">
-      <h2 class="land-h2">Наши <span style="color:var(--blue2)">услуги</span></h2>
-      <div class="services-grid">
-        <div class="srv-card"><div class="srv-icon">🏃</div><div class="srv-title">Персональные тренировки</div><div class="srv-desc">Индивидуальная программа, тренер работает только с вами</div></div>
-        <div class="srv-card"><div class="srv-icon">💪</div><div class="srv-title">Групповые занятия</div><div class="srv-desc">Энергия команды, профессиональный тренер, результат</div></div>
-        <div class="srv-card"><div class="srv-icon">🥗</div><div class="srv-title">Нутрициология</div><div class="srv-desc">Программа питания от профессиональных диетологов</div></div>
-        <div class="srv-card"><div class="srv-icon">📅</div><div class="srv-title">Гибкое расписание</div><div class="srv-desc">Запись, перенос и отмена занятий онлайн 24/7</div></div>
-        <div class="srv-card"><div class="srv-icon">🧘</div><div class="srv-title">Рельеф тела</div><div class="srv-desc">Специализированные программы по формированию рельефа</div></div>
-        <div class="srv-card"><div class="srv-icon">📊</div><div class="srv-title">Контроль прогресса</div><div class="srv-desc">Отслеживайте результаты в личном кабинете</div></div>
-      </div>
-    </section>
-    <section class="land-section land-section-alt" id="schedule-preview">
-      <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center">
+
+    <!-- РАСПИСАНИЕ -->
+    <section id="sec-schedule" style="scroll-snap-align:start;height:100vh;display:flex;align-items:center;padding:80px;background:var(--bg2);flex-shrink:0;overflow:hidden;position:relative">
+      <div style="position:absolute;bottom:-150px;left:-100px;width:600px;height:600px;border-radius:50%;background:rgba(37,99,235,.05);filter:blur(100px);pointer-events:none"></div>
+      <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%">
         <div>
-          <h2 style="font-family:var(--f2);font-size:38px;font-weight:700;margin-bottom:18px">Удобное <span style="color:var(--blue2)">расписание</span></h2>
-          <p style="font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:30px">Просматривайте тренировки в форматах месяц, неделя и день.</p>
-          <button class="btn btn-primary" onclick="openModal('modal-apply')">Начать сейчас</button>
+          <div style="font-size:13px;color:var(--blue2);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px">Всегда под рукой</div>
+          <h2 style="font-family:var(--f2);font-size:42px;font-weight:700;margin-bottom:20px;line-height:1.1">Удобное <span style="color:var(--blue2)">расписание</span></h2>
+          <p style="font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:36px">Просматривайте тренировки в форматах месяц, неделя и день. Записывайтесь онлайн в любое время и отслеживайте свои занятия.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:36px">
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;border-radius:8px;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:14px;color:var(--t2)">Онлайн запись 24/7</span></div>
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;border-radius:8px;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:14px;color:var(--t2)">Перенос и отмена занятий</span></div>
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;border-radius:8px;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:14px;color:var(--t2)">История тренировок</span></div>
+          </div>
+          <button class="btn btn-primary" style="padding:12px 28px;border-radius:var(--r2)" onclick="openModal('modal-apply')">Начать сейчас</button>
         </div>
-        <div class="card card-glow" style="padding:22px" id="mini-cal"></div>
+        <div class="card card-glow" style="padding:24px" id="mini-cal"></div>
       </div>
     </section>
-    <section class="land-section" id="contacts" style="text-align:center">
-      <h2 class="land-h2">Контакты</h2>
-      <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
-        <p style="color:var(--t2);font-size:15px">📍 г. Ростов-на-Дону, ул. Спортивная, 1</p>
-        <p style="color:var(--t2);font-size:15px">📞 +7 (863) 000-00-00</p>
-        <p style="color:var(--t2);font-size:15px">✉️ info@sfedu-sport.ru</p>
-        <p style="color:var(--t2);font-size:15px">🕐 Пн–Пт: 07:00–22:00 | Сб–Вс: 09:00–20:00</p>
+
+    <!-- ТРЕНЕРА -->
+    <section id="sec-trainers-land" style="scroll-snap-align:start;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px;background:var(--bg);flex-shrink:0;overflow:hidden;position:relative">
+      <div style="text-align:center;margin-bottom:48px">
+        <div style="font-size:13px;color:var(--blue2);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px">Профессионалы своего дела</div>
+        <h2 style="font-family:var(--f2);font-size:42px;font-weight:700">Наши <span style="color:var(--blue2)">тренера</span></h2>
+      </div>
+      <div id="land-trainers-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto;width:100%">
+        <div class="card" style="overflow:hidden;transition:all .3s" onmouseover="this.style.borderColor='var(--blue)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+          <div style="height:180px;background:linear-gradient(135deg,var(--bg4),var(--bg3));display:flex;align-items:center;justify-content:center;font-size:64px">💪</div>
+          <div style="padding:18px"><div style="font-weight:700;margin-bottom:4px">Загрузка...</div></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:32px">
+        <button class="btn btn-outline" onclick="showPage('page-trainers')" style="padding:10px 28px;border-radius:var(--r2)">Все тренера →</button>
       </div>
     </section>
+
+    <!-- КОНТАКТЫ -->
+    <section id="sec-contacts" style="scroll-snap-align:start;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px;background:var(--bg2);flex-shrink:0;overflow:hidden;position:relative;text-align:center">
+      <div style="position:absolute;inset:0;opacity:.025;background-image:linear-gradient(#2563eb 1px,transparent 1px),linear-gradient(90deg,#2563eb 1px,transparent 1px);background-size:44px 44px"></div>
+      <div style="position:relative;z-index:1;max-width:700px;width:100%">
+        <div style="font-size:13px;color:var(--blue2);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px">Мы здесь</div>
+        <h2 style="font-family:var(--f2);font-size:42px;font-weight:700;margin-bottom:48px">Контакты</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px">
+          <div class="card" style="padding:24px;display:flex;align-items:center;gap:16px;text-align:left">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><div style="font-size:12px;color:var(--t3);margin-bottom:4px">Адрес</div><div style="font-size:14px;font-weight:600">г. Ростов-на-Дону,<br>ул. Спортивная, 1</div></div>
+          </div>
+          <div class="card" style="padding:24px;display:flex;align-items:center;gap:16px;text-align:left">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div><div style="font-size:12px;color:var(--t3);margin-bottom:4px">Телефон</div><div style="font-size:14px;font-weight:600">+7 (863) 000-00-00</div></div>
+          </div>
+          <div class="card" style="padding:24px;display:flex;align-items:center;gap:16px;text-align:left">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(245,158,11,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><div style="font-size:12px;color:var(--t3);margin-bottom:4px">Email</div><div style="font-size:14px;font-weight:600">info@sfedu-sport.ru</div></div>
+          </div>
+          <div class="card" style="padding:24px;display:flex;align-items:center;gap:16px;text-align:left">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(139,92,246,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div><div style="font-size:12px;color:var(--t3);margin-bottom:4px">Режим работы</div><div style="font-size:14px;font-weight:600">Пн–Пт: 07:00–22:00<br>Сб–Вс: 09:00–20:00</div></div>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="padding:13px 40px;font-size:15px;border-radius:var(--r2);box-shadow:0 0 28px rgba(37,99,235,.4)" onclick="openModal('modal-apply')">Записаться бесплатно</button>
+      </div>
+    </section>
+
   </div>
 </div>
 
@@ -375,10 +473,16 @@ tr:hover td{background:rgba(255,255,255,.02)}
           <span id="c-firstname" style="font-size:13px;font-weight:600;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Профиль</span>
         </button>
         <div class="dropdown-menu" id="dd-client" style="display:none">
-          <button class="dropdown-item" onclick="clientNav('profile');closeAllDropdowns()">👤 Мой профиль</button>
-          <div style="height:1px;background:var(--border);margin:4px 0"></div>
-          <button class="dropdown-item danger" onclick="logout()">🚪 Выйти</button>
-        </div>
+  <button class="dropdown-item" onclick="clientNav('profile');closeAllDropdowns()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Мой профиль
+  </button>
+  <div style="height:1px;background:var(--border);margin:4px 0"></div>
+  <button class="dropdown-item danger" onclick="logout()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    Выйти
+  </button>
+</div>
       </div>
     </div>
   </div>
@@ -436,8 +540,8 @@ tr:hover td{background:rgba(255,255,255,.02)}
         <span id="profile-fullname" style="font-size:16px;font-weight:600">Загрузка...</span>
       </div>
       <div style="display:flex;gap:22px;margin-bottom:18px">
-        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="checkbox" id="gender-male" style="accent-color:var(--blue);width:15px;height:15px"> Мужской</label>
-        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="checkbox" id="gender-female" style="accent-color:var(--blue);width:15px;height:15px"> Женский</label>
+        <label id="label-gender-male" style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="radio" name="gender" id="gender-male" value="male" style="accent-color:var(--blue);width:15px;height:15px"> Мужской</label>
+        <label id="label-gender-female" style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer"><input type="radio" name="gender" id="gender-female" value="female" style="accent-color:var(--blue);width:15px;height:15px"> Женский</label>
       </div>
       <div class="profile-form" style="margin-bottom:16px">
         <div class="inp-wrap"><label class="inp-label">ФИО</label><input class="inp" id="p-fullname" placeholder="Фамилия Имя Отчество"></div>
@@ -751,9 +855,22 @@ tr:hover td{background:rgba(255,255,255,.02)}
   <div class="modal-box" style="width:420px">
     <div class="modal-head"><span style="font-weight:700;font-size:17px">Заявка на тренировку</span><button class="modal-close" onclick="closeModal('modal-req-training')">✕</button></div>
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="inp-wrap"><label class="inp-label">Желаемое время</label><input type="text" class="inp" id="req-datetime" placeholder="27.05.2026 15:00"></div>
-      <div class="inp-wrap"><label class="inp-label">Тренер</label><select class="inp" id="req-trainer"><option value="">Любой тренер</option></select></div>
-      <div class="inp-wrap"><label class="inp-label">Комментарий</label><textarea class="inp" id="req-comment" rows="3" placeholder="Пожелания к тренировке..." style="resize:vertical"></textarea></div>
+      <div class="inp-wrap">
+        <label class="inp-label">Дата</label>
+        <input type="date" class="inp" id="req-date" style="color-scheme:dark">
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">Время</label>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px" id="req-time-grid"></div>
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">Тренер</label>
+        <select class="inp" id="req-trainer"><option value="">Любой тренер</option></select>
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">Комментарий</label>
+        <textarea class="inp" id="req-comment" rows="2" placeholder="Пожелания к тренировке..." style="resize:vertical"></textarea>
+      </div>
       <div id="req-err" style="font-size:13px;color:var(--red);display:none"></div>
       <button class="btn btn-primary" onclick="submitTrainingRequest()">Отправить заявку</button>
     </div>
@@ -1061,7 +1178,6 @@ async function submitApply(){
   }catch(e){showErr('apply-err',e.message||'Ошибка');}
 }
 
-// CLIENT UI
 function populateClientUI(){
   const u=state.user;if(!u)return;
   const ini=initials(u.full_name);
@@ -1073,12 +1189,14 @@ function populateClientUI(){
   document.getElementById('p-fullname').value=u.full_name;
   document.getElementById('p-phone').value=u.phone;
   document.getElementById('p-email').value=u.email;
-  document.getElementById('gender-male').checked=u.gender==='male';
-  document.getElementById('gender-female').checked=u.gender==='female';
+  const genderEl=document.querySelector('input[name="gender"][value="'+(u.gender||'male')+'"]');
+  if(genderEl)genderEl.checked=true;
   ['p-fullname','p-phone','p-email'].forEach(id=>{
     const el=document.getElementById(id);
     if(el){el.readOnly=true;el.style.opacity='0.6';el.style.cursor='default';}
   });
+  document.getElementById('gender-male').disabled=true;
+  document.getElementById('gender-female').disabled=true;
   document.getElementById('btn-save-profile').style.display='none';
   document.getElementById('btn-edit-profile').style.display='inline-flex';
   loadClientStats();
@@ -1149,6 +1267,8 @@ function enableProfileEdit(){
     const el=document.getElementById(id);
     if(el){el.readOnly=false;el.style.opacity='1';el.style.cursor='text';}
   });
+  document.getElementById('gender-male').disabled=false;
+  document.getElementById('gender-female').disabled=false;
   document.getElementById('btn-save-profile').style.display='inline-flex';
   document.getElementById('btn-edit-profile').style.display='none';
 }
@@ -1324,7 +1444,7 @@ async function saveProfile(){
   const full_name=document.getElementById('p-fullname').value.trim();
   const phone=document.getElementById('p-phone').value.trim();
   const email=document.getElementById('p-email').value.trim();
-  const gender=document.getElementById('gender-female').checked?'female':'male';
+  const gender=document.querySelector('input[name="gender"]:checked')?.value||'male';
   const msg=document.getElementById('profile-msg');msg.style.display='none';
   if(!full_name||full_name.split(' ').length<2){msg.textContent='Введите полное ФИО';msg.style.color='var(--red)';msg.style.display='block';return;}
   if(!/^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone)){msg.textContent='Неверный формат телефона';msg.style.color='var(--red)';msg.style.display='block';return;}
@@ -1332,8 +1452,8 @@ async function saveProfile(){
   try{
     const u=await PUT('/users/me',{full_name,phone,email,gender});
     state.user=u;localStorage.setItem('sfedu_auth',JSON.stringify({user:u,token:state.token}));
-    populateClientUI();msg.textContent='Данные сохранены ✓';msg.style.color='var(--green)';msg.style.display='block';
-  }catch(e){msg.textContent=e.message||'Ошибка';msg.style.color='var(--red)';msg.style.display='block';}
+    populateClientUI();toast('Данные сохранены');
+  }catch(e){toast(e.message||'Ошибка','error');}
 }
 
 function showPassMode(){document.getElementById('profile-view-mode').style.display='none';document.getElementById('profile-pass-mode').style.display='block';}
@@ -1704,21 +1824,51 @@ async function openTrainingRequestModal(){
       select.appendChild(opt);
     });
   }catch{}
+
+  // Минимальная дата — сегодня
+  const today=new Date().toISOString().slice(0,10);
+  document.getElementById('req-date').min=today;
+  document.getElementById('req-date').value=today;
+
+  // Сетка времён
+  const times=['07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
+  let selectedTime=null;
+  const grid=document.getElementById('req-time-grid');
+  grid.innerHTML=times.map(t=>'<button type="button" onclick="selectTime(this,\''+t+'\')" style="padding:8px 4px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="if(!this.classList.contains(\'time-sel\'))this.style.borderColor=\'var(--blue)\'" onmouseout="if(!this.classList.contains(\'time-sel\'))this.style.borderColor=\'var(--border)\'">'+t+'</button>').join('');
+
   openModal('modal-req-training');
 }
 
+function selectTime(btn, time){
+  document.querySelectorAll('#req-time-grid button').forEach(b=>{
+    b.classList.remove('time-sel');
+    b.style.background='var(--bg4)';
+    b.style.borderColor='var(--border)';
+    b.style.color='var(--t2)';
+  });
+  btn.classList.add('time-sel');
+  btn.style.background='var(--blue)';
+  btn.style.borderColor='var(--blue)';
+  btn.style.color='#fff';
+  btn.dataset.time=time;
+}
+
 async function submitTrainingRequest(){
-  const preferred_at=document.getElementById('req-datetime').value;
+  const date=document.getElementById('req-date').value;
+  const timeBtn=document.querySelector('#req-time-grid button.time-sel');
+  const time=timeBtn?timeBtn.dataset.time:'';
+  const preferred_at=date&&time?date+'T'+time+':00':'';
   const comment=document.getElementById('req-comment').value;
   const trainerVal=document.getElementById('req-trainer').value;
   hideErr('req-err');
-  if(!preferred_at){showErr('req-err','Выберите дату и время');return;}
+  if(!date){showErr('req-err','Выберите дату');return;}
+  if(!time){showErr('req-err','Выберите время');return;}
   const trainerName=trainerVal?document.getElementById('req-trainer').selectedOptions[0].textContent:'';
   const fullComment=trainerName?'Тренер: '+trainerName+'. '+comment:comment;
   try{
-    await POST('/schedule/requests',{preferred_at:parseRuDate(preferred_at),comment:fullComment});
+    await POST('/schedule/requests',{preferred_at:preferred_at,comment:fullComment});
     closeModal('modal-req-training');
-    document.getElementById('req-datetime').value='';document.getElementById('req-comment').value='';
+    document.getElementById('req-comment').value='';
     toast('Заявка отправлена!');
   }catch(e){showErr('req-err',e.message);}
 }
@@ -2385,6 +2535,24 @@ function renderMiniCal(){
     +cells.map(d=>'<div style="text-align:center;font-size:13px;padding:5px 3px;border-radius:5px;border:1px solid var(--border);'+(d===now.getDate()?'background:var(--blue);color:#fff;font-weight:700;':'color:var(--t2);')+(d===''?'opacity:0;':'')+'">'+d+'</div>').join('')
     +'</div>';
 }
+
+// Загружаем тренеров на лендинге
+async function loadLandTrainers(){
+  try{
+    const data = await GET('/trainers');
+    const grid = document.getElementById('land-trainers-grid');
+    if(!grid) return;
+    const list = (data||[]).slice(0,3);
+    if(!list.length){ grid.innerHTML='<p style="color:var(--t2)">Тренеров нет</p>'; return; }
+    grid.innerHTML = list.map(t=>'<div class="card" style="overflow:hidden;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor=\'var(--blue)\';this.style.transform=\'translateY(-4px)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\'">'
+      +'<div style="height:180px;background:linear-gradient(135deg,var(--bg4),var(--bg3));display:flex;align-items:center;justify-content:center;overflow:hidden">'+(t.photo_url?'<img src="'+t.photo_url+'" style="width:100%;height:100%;object-fit:cover">':'<span style="font-size:64px">💪</span>')+'</div>'
+      +'<div style="padding:18px"><div style="font-weight:700;margin-bottom:4px">'+t.full_name+'</div>'
+      +'<div style="font-size:13px;color:var(--blue2);font-weight:600;margin-bottom:6px">'+specLabel(t.specialization)+'</div>'
+      +'<div style="font-size:13px;color:var(--t2)">'+(t.bio||'')+'</div></div>'
+      +'</div>').join('');
+  }catch{}
+}
+loadLandTrainers();
 
 // AI
 function toggleAI(){const p=document.getElementById('ai-panel');p.style.display=p.style.display==='none'?'flex':'none';}
