@@ -7,17 +7,17 @@ import (
 
 	"github.com/sfedu-crm/internal/domain"
 	"github.com/sfedu-crm/internal/repository"
+	"github.com/sfedu-crm/internal/validator"
 	"github.com/sfedu-crm/pkg/hash"
 	"github.com/sfedu-crm/pkg/jwt"
-	"github.com/sfedu-crm/internal/validator"
 )
 
 type AuthService struct {
-	userRepo    repository.UserRepository
-	appRepo     repository.ApplicationRepository
-	tokenMgr    *jwt.Manager
-	hasher      *hash.Bcrypt
-	tokenTTL    time.Duration
+	userRepo repository.UserRepository
+	appRepo  repository.ApplicationRepository
+	tokenMgr *jwt.Manager
+	hasher   *hash.Bcrypt
+	tokenTTL time.Duration
 }
 
 func NewAuthService(

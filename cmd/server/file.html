@@ -83,7 +83,7 @@ input,textarea,select{font-family:var(--f1)}
 .dropdown-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);border:none;background:none;color:var(--t1);font-size:13px;font-weight:500;width:100%;text-align:left;cursor:pointer;transition:background .15s}
 .dropdown-item:hover{background:var(--bg4)}
 .dropdown-item.danger{color:var(--red)}
-.sidebar{width:160px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 8px}
+.sidebar{width:160px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 8px;justify-content:space-between}
 .sidebar-staff{width:195px}
 .nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:var(--r);font-size:14px;font-weight:500;color:var(--t2);border:1px solid transparent;cursor:pointer;transition:all .2s;background:none;width:100%;text-align:left}
 .nav-item:hover{color:var(--t1);background:rgba(255,255,255,.04)}
@@ -285,35 +285,35 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
     </nav>
 
     <!-- HERO -->
-    <section id="sec-hero" style="scroll-snap-align:start;height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;flex-shrink:0;padding-top:62px">
-      <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1800&q=80');background-size:cover;background-position:center 30%;filter:brightness(.28)"></div>
-      <div style="position:absolute;inset:0;background:linear-gradient(108deg,rgba(9,9,15,.98) 40%,rgba(9,9,15,.25) 100%)"></div>
-      <div style="position:absolute;inset:0;opacity:.03;background-image:linear-gradient(#2563eb 1px,transparent 1px),linear-gradient(90deg,#2563eb 1px,transparent 1px);background-size:44px 44px"></div>
-      <div style="position:absolute;top:20%;right:20%;width:500px;height:500px;border-radius:50%;background:rgba(37,99,235,.07);filter:blur(120px);pointer-events:none"></div>
-      <div style="position:relative;z-index:2;padding:0 80px;max-width:780px">
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.35);border-radius:30px;padding:6px 18px;font-size:13px;color:var(--blue2);font-weight:600;margin-bottom:28px;animation:fadeUp .5s ease both">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          Спортивный зал SFEDU — Ростов-на-Дону
-        </div>
-        <h1 style="font-family:var(--f2);font-size:clamp(44px,6.5vw,84px);font-weight:700;line-height:1.02;margin-bottom:20px;letter-spacing:-.01em;animation:fadeUp .5s .1s ease both">Ты можешь больше,<br><span style="color:var(--blue2)">чем думаешь</span></h1>
-        <p style="font-size:18px;color:var(--t2);line-height:1.7;margin-bottom:42px;max-width:500px;animation:fadeUp .5s .18s ease both">Инвестиция в себя, которая окупится на <span style="color:var(--blue2);font-weight:700">100%</span></p>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .5s .26s ease both">
-          <button class="btn btn-primary" style="font-size:15px;padding:13px 34px;border-radius:var(--r2);box-shadow:0 0 28px rgba(37,99,235,.45)" onclick="openModal('modal-apply')">Записаться</button>
-          <button class="btn btn-outline" style="font-size:15px;padding:13px 34px;border-radius:var(--r2)" onclick="openModal('modal-login')">Войти в кабинет</button>
-        </div>
-        <div style="display:flex;gap:40px;margin-top:56px;animation:fadeUp .5s .34s ease both">
-          <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--t1)">500+</div><div style="font-size:13px;color:var(--t2);margin-top:3px">Клиентов</div></div>
-          <div style="width:1px;background:var(--border)"></div>
-          <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--t1)">12</div><div style="font-size:13px;color:var(--t2);margin-top:3px">Тренеров</div></div>
-          <div style="width:1px;background:var(--border)"></div>
-          <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--t1)">5 лет</div><div style="font-size:13px;color:var(--t2);margin-top:3px">Опыта</div></div>
-        </div>
-      </div>
-      <div style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;opacity:.6" onclick="document.getElementById('sec-services').scrollIntoView({behavior:'smooth'})">
-        <span style="font-size:11px;color:var(--t3);letter-spacing:.12em;text-transform:uppercase">Листать вниз</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-    </section>
+<section id="sec-hero" style="scroll-snap-align:start;height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;flex-shrink:0;padding-top:62px;box-sizing:border-box">
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1800&q=80');background-size:cover;background-position:center 30%;filter:brightness(.4)"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(108deg,rgba(9,9,15,.95) 35%,rgba(9,9,15,.15) 100%)"></div>
+  <div style="position:absolute;inset:0;opacity:.03;background-image:linear-gradient(#2563eb 1px,transparent 1px),linear-gradient(90deg,#2563eb 1px,transparent 1px);background-size:44px 44px"></div>
+  <div style="position:absolute;top:20%;right:20%;width:500px;height:500px;border-radius:50%;background:rgba(37,99,235,.07);filter:blur(120px);pointer-events:none"></div>
+  <div style="position:relative;z-index:2;padding:0 80px;max-width:780px">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.35);border-radius:30px;padding:6px 18px;font-size:13px;color:var(--blue2);font-weight:600;margin-bottom:28px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Спортивный зал SFEDU — Ростов-на-Дону
+    </div>
+    <h1 style="font-family:var(--f2);font-size:clamp(44px,6.5vw,84px);font-weight:700;line-height:1.02;margin-bottom:20px;letter-spacing:-.01em;color:#fff">Ты можешь больше,<br><span style="color:var(--blue2)">чем думаешь</span></h1>
+    <p style="font-size:18px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:42px;max-width:500px">Инвестиция в себя, которая окупится на <span style="color:var(--blue2);font-weight:700">100%</span></p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <button class="btn btn-primary" style="font-size:15px;padding:13px 34px;border-radius:var(--r2);box-shadow:0 0 28px rgba(37,99,235,.45)" onclick="openModal('modal-apply')">Записаться</button>
+      <button class="btn btn-outline" style="font-size:15px;padding:13px 34px;border-radius:var(--r2)" onclick="openModal('modal-login')">Войти в кабинет</button>
+    </div>
+    <div style="display:flex;gap:40px;margin-top:32px">
+      <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--blue2)">500+</div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:3px">Клиентов</div></div>
+      <div style="width:1px;background:rgba(255,255,255,.2)"></div>
+      <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--blue2)">12</div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:3px">Тренеров</div></div>
+      <div style="width:1px;background:rgba(255,255,255,.2)"></div>
+      <div><div style="font-family:var(--f2);font-size:34px;font-weight:700;color:var(--blue2)">5 лет</div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:3px">Опыта</div></div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;opacity:.6" onclick="document.getElementById('sec-services').scrollIntoView({behavior:'smooth'})">
+    <span style="font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.12em;text-transform:uppercase">Листать вниз</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
 
     <!-- УСЛУГИ -->
     <section id="sec-services" style="scroll-snap-align:start;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px;background:var(--bg);flex-shrink:0;overflow:hidden;position:relative">
@@ -466,33 +466,39 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
     <div class="topbar-right">
       <div class="topbar-stat"><span>Баланс:</span><span id="c-balance">0.00</span></div>
       <button onclick="toggleTheme()" id="theme-btn-client" style="background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:5px 10px;cursor:pointer;font-size:14px;color:var(--t2)">🌙</button>
-        <button class="topbar-btn-pay" onclick="openModal('modal-topup')">+ Оплатить</button>
+      <button class="topbar-btn-pay" onclick="openModal('modal-topup')">+ Оплатить</button>
       <div class="dropdown">
         <button onclick="toggleDropdown('dd-client')" style="display:flex;align-items:center;gap:8px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:5px 11px;color:var(--t1)">
           <div class="avatar" id="c-avatar" style="width:28px;height:28px;font-size:11px">ПТ</div>
           <span id="c-firstname" style="font-size:13px;font-weight:600;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Профиль</span>
         </button>
         <div class="dropdown-menu" id="dd-client" style="display:none">
-  <button class="dropdown-item" onclick="clientNav('profile');closeAllDropdowns()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    Мой профиль
-  </button>
-  <div style="height:1px;background:var(--border);margin:4px 0"></div>
-  <button class="dropdown-item danger" onclick="logout()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-    Выйти
-  </button>
-</div>
+          <button class="dropdown-item" onclick="clientNav('profile');closeAllDropdowns()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Мой профиль
+          </button>
+          <div style="height:1px;background:var(--border);margin:4px 0"></div>
+          <button class="dropdown-item danger" onclick="logout()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Выйти
+          </button>
+        </div>
       </div>
     </div>
   </div>
   <div class="dash-wrap">
-    <div class="sidebar">
+    <div class="sidebar" style="justify-content:space-between">
+      <div style="display:flex;flex-direction:column;gap:2px">
         <button class="nav-item" id="cnav-profile" onclick="clientNav('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Главная</button>
         <button class="nav-item" id="cnav-schedule" onclick="clientNav('schedule')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Расписание</button>
         <button class="nav-item" id="cnav-payments" onclick="clientNav('payments')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Платежи</button>
         <button class="nav-item" id="cnav-shop" onclick="clientNav('shop')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Магазин</button>
         <button class="nav-item" id="cnav-trainers" onclick="clientNav('trainers')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Тренера</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <button class="nav-item" onclick="toggleAI()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>ИИ Спортсмен</button>
+        <button class="nav-item" onclick="logout()" style="color:var(--t3)" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--t3)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Выйти</button>
+      </div>
     </div>
     <div class="dash-main">
       <!-- Profile -->
@@ -712,12 +718,18 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
 
       <!-- Trainers -->
       <div id="ssec-trainers" style="display:none;padding:24px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-          <h2 style="font-family:var(--f2);font-size:22px;font-weight:700">Тренерский состав</h2>
-          <button class="btn btn-primary btn-sm" id="add-trainer-btn" onclick="openCreateTrainerModal()" style="display:none">+ Добавить тренера</button>
-        </div>
-        <div class="trainers-grid" id="staff-trainers-grid"></div>
-      </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+    <h2 style="font-family:var(--f2);font-size:22px;font-weight:700">Тренерский состав</h2>
+    <button class="btn btn-primary btn-sm" id="add-trainer-btn" onclick="openCreateTrainerModal()" style="display:none">+ Добавить тренера</button>
+  </div>
+  <div style="display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap" id="staff-trainer-filters">
+    <button class="pay-tab active" onclick="staffTrainerFilter('all',this)">Все</button>
+    <button class="pay-tab" onclick="staffTrainerFilter('body_relief',this)">Рельеф тела</button>
+    <button class="pay-tab" onclick="staffTrainerFilter('weight_loss',this)">Похудение</button>
+    <button class="pay-tab" onclick="staffTrainerFilter('mass_gain',this)">Набор массы</button>
+  </div>
+  <div class="trainers-grid" id="staff-trainers-grid"></div>
+</div>
 
       <!-- Shop -->
       <div id="ssec-shop" style="display:none;padding:24px">
@@ -932,7 +944,8 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
 
 <div class="modal-overlay" id="modal-create-user">
   <div class="modal-box" style="width:440px">
-    <div class="modal-head"><span style="font-weight:700">Добавить пользователя</span><button class="modal-close" onclick="closeModal('modal-create-user')">✕</button></div>
+    <div class="modal-head"><span style="font-weight:700" id="cu-modal-title">Добавить пользователя</span><button class="modal-close" onclick="closeModal('modal-create-user')">✕</button></div>
+    <h2 id="cu-modal-subtitle" style="font-size:20px;font-weight:700;margin-bottom:16px;display:none"></h2>
     <div style="display:flex;flex-direction:column;gap:13px">
       <div class="inp-wrap"><label class="inp-label">ФИО</label><input class="inp" id="cu-name" placeholder="Фамилия Имя Отчество"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -944,14 +957,14 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
         <select class="inp" id="cu-role"><option value="client">Клиент</option><option value="manager">Менеджер</option><option value="admin">Администратор</option></select>
       </div>
       <div id="cu-err" style="font-size:13px;color:var(--red);display:none"></div>
-      <button class="btn btn-primary" onclick="submitCreateUser()">Создать</button>
+      <button class="btn btn-primary" id="cu-submit-btn" onclick="submitCreateUser()">Создать</button>
     </div>
   </div>
 </div>
 
 <div class="modal-overlay" id="modal-create-trainer">
   <div class="modal-box" style="width:440px">
-    <div class="modal-head"><span style="font-weight:700">Добавить тренера</span><button class="modal-close" onclick="closeModal('modal-create-trainer')">✕</button></div>
+    <div class="modal-head"><span style="font-weight:700" id="ct-modal-title">Добавить тренера</span><button class="modal-close" onclick="closeModal('modal-create-trainer')">✕</button></div>
     <div style="display:flex;flex-direction:column;gap:13px">
       <div class="inp-wrap"><label class="inp-label">Пользователь</label><select class="inp" id="ct-userid"></select></div>
       <div class="inp-wrap"><label class="inp-label">Специализация</label>
@@ -970,7 +983,7 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
       </div>
       <div class="inp-wrap"><label class="inp-label">О тренере</label><textarea class="inp" id="ct-bio" rows="3" style="resize:vertical" placeholder="Краткое описание..."></textarea></div>
       <div id="ct-err" style="font-size:13px;color:var(--red);display:none"></div>
-      <button class="btn btn-primary" onclick="submitCreateTrainer()">Добавить</button>
+      <button class="btn btn-primary" id="ct-submit-btn" onclick="submitCreateTrainer()">Добавить</button>
     </div>
   </div>
 </div>
@@ -1605,7 +1618,7 @@ function renderClientTrainers(list){
     +'<div class="trainer-spec">'+specLabel(t.specialization)+'</div>'
     +'<div class="trainer-bio">'+(t.bio||'')+'</div>'
     +'<div style="font-size:12px;color:var(--t3);margin-top:8px">Опыт: '+t.experience_years+' лет</div>'
-    +'<button class="btn btn-primary btn-sm" style="margin-top:12px;width:100%" onclick="openTrainingRequestModal()">Записаться</button>'
+    +'<button class="btn btn-primary btn-sm" style="margin-top:12px;width:100%" onclick="openTrainingRequestModalWithTrainer('+t.id+')">Записаться</button>'
     +'</div></div>').join('');
 }
 
@@ -1766,7 +1779,10 @@ async function submitEditTraining(){
       end_time:parseRuDate(document.getElementById('et-end').value),
       status:document.getElementById('et-status').value,
     });
-    closeModal('modal-edit-training');toast('Занятие обновлено');loadStaffSchedule();
+    closeModal('modal-edit-training');
+    toast('Занятие обновлено');
+    loadStaffSchedule();
+    loadClients();
   }catch(e){toast(e.message,'error');}
 }
 
@@ -1813,6 +1829,12 @@ function schedFilter(status, btn) {
   renderCalendar('client-calendar');
 }
 
+async function openTrainingRequestModalWithTrainer(trainerId){
+  await openTrainingRequestModal();
+  const select=document.getElementById('req-trainer');
+  select.value=trainerId;
+}
+
 async function openTrainingRequestModal(){
   const select=document.getElementById('req-trainer');
   select.innerHTML='<option value="">Любой тренер</option>';
@@ -1857,7 +1879,7 @@ async function submitTrainingRequest(){
   const date=document.getElementById('req-date').value;
   const timeBtn=document.querySelector('#req-time-grid button.time-sel');
   const time=timeBtn?timeBtn.dataset.time:'';
-  const preferred_at=date&&time?date+'T'+time+':00':'';
+  const preferred_at=date&&time?new Date(date+'T'+time+':00').toISOString():'';
   const comment=document.getElementById('req-comment').value;
   const trainerVal=document.getElementById('req-trainer').value;
   hideErr('req-err');
@@ -1891,12 +1913,22 @@ function populateStaffUI(){
   const navRole=document.getElementById('staff-nav-role');
   if(navName)navName.textContent=u.full_name.split(' ').slice(0,2).join(' ');
   if(navRole)navRole.textContent=roleLabel(u.role);
-  startPolling();
-  // Назначаем обработчики кнопок в modal-approve-app
   const btnApproveApp=document.getElementById('btn-approve-app');
   const btnRejectApp=document.getElementById('btn-reject-app');
   if(btnApproveApp)btnApproveApp.onclick=confirmApproveApp;
   if(btnRejectApp)btnRejectApp.onclick=confirmRejectApp;
+  // Сразу загружаем бейджи
+  (async()=>{
+    try{
+      const [requests,apps]=await Promise.all([
+        GET('/schedule/requests'),
+        GET('/applications?status=pending')
+      ]);
+      updateNavBadge('snav-schedule',(requests||[]).length);
+      updateNavBadge('snav-applications',(apps||[]).length);
+    }catch{}
+  })();
+  startPolling();
 }
 
 let _pollingInterval=null;
@@ -1925,6 +1957,27 @@ function startPolling(){
       localStorage.setItem('_prevReqs',newReqs);localStorage.setItem('_prevApps',newApps);
     }catch{}
   },15000);
+}
+
+function staffTrainerFilter(spec, btn){
+  document.querySelectorAll('#staff-trainer-filters .pay-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = spec==='all' ? state.trainers : state.trainers.filter(t=>t.specialization===spec);
+  const grid = document.getElementById('staff-trainers-grid');
+  const isAdmin = state.user?.role==='admin';
+  if(!filtered.length){grid.innerHTML='<p style="color:var(--t2)">Тренеров нет</p>';return;}
+  grid.innerHTML = filtered.map(t=>'<div class="trainer-card">'
+    +'<div class="trainer-photo">'+(t.photo_url?'<img src="'+t.photo_url+'" style="width:100%;height:100%;object-fit:cover" alt="">':'💪')+'</div>'
+    +'<div class="trainer-info">'
+    +'<div class="trainer-name">'+t.full_name+'</div>'
+    +'<div class="trainer-spec">'+specLabel(t.specialization)+'</div>'
+    +'<div class="trainer-bio">'+(t.bio||'')+'</div>'
+    +'<div style="font-size:12px;color:var(--t3);margin-top:8px">Опыт: '+t.experience_years+' лет</div>'
+    +(isAdmin?'<div style="display:flex;gap:8px;margin-top:10px">'
+      +'<button class="btn btn-ghost btn-sm" onclick="openEditTrainerModal('+t.id+')">Изменить</button>'
+      +'<button class="btn btn-danger btn-sm" onclick="deleteTrainer('+t.id+')">Удалить</button>'
+      +'</div>':'')
+    +'</div></div>').join('');
 }
 
 function updateNavBadge(navId,count){
@@ -2058,13 +2111,19 @@ async function submitApproveRequest(){
     closeModal('modal-approve-req');
     toast('Заявка принята, занятие создано');
     loadStaffSchedule();
+    const requests=await GET('/schedule/requests');
+    updateNavBadge('snav-schedule',(requests||[]).length);
   }catch(e){showErr('ar-err',e.message||'Ошибка');}
 }
 
 async function submitRejectRequest(){
   try{
     await POST('/schedule/requests/'+_pendingReqId+'/reject');
-    closeModal('modal-approve-req');toast('Заявка отклонена');
+    closeModal('modal-approve-req');
+    toast('Заявка отклонена');
+    loadStaffSchedule();
+    const requests=await GET('/schedule/requests');
+    updateNavBadge('snav-schedule',(requests||[]).length);
   }catch(e){toast(e.message||'Ошибка','error');}
 }
 
@@ -2164,7 +2223,12 @@ async function deleteClient(id){
 
 function openCreateUserModal(){
   ['cu-name','cu-phone','cu-email','cu-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  state.editingClientId=null;hideErr('cu-err');openModal('modal-create-user');
+  state.editingClientId=null;
+  document.getElementById('cu-modal-title').textContent='Добавить пользователя';
+  document.getElementById('cu-modal-subtitle').style.display='none';
+  document.getElementById('cu-submit-btn').textContent='Создать';
+  hideErr('cu-err');
+  openModal('modal-create-user');
 }
 
 function openEditUserModal(id){
@@ -2174,7 +2238,13 @@ function openEditUserModal(id){
   document.getElementById('cu-email').value=c.email;
   document.getElementById('cu-pass').value='';
   document.getElementById('cu-role').value=c.role;
-  state.editingClientId=id;hideErr('cu-err');openModal('modal-create-user');
+  document.getElementById('cu-modal-title').textContent='Редактировать пользователя';
+  document.getElementById('cu-modal-subtitle').textContent=c.full_name;
+  document.getElementById('cu-modal-subtitle').style.display='block';
+  document.getElementById('cu-submit-btn').textContent='Сохранить';
+  state.editingClientId=id;
+  hideErr('cu-err');
+  openModal('modal-create-user');
 }
 
 async function submitCreateUser(){
@@ -2185,9 +2255,18 @@ async function submitCreateUser(){
   const role=document.getElementById('cu-role').value;
   hideErr('cu-err');
   try{
-    if(state.editingClientId)await PUT('/users/'+state.editingClientId,{full_name,phone,email,gender:'male'});
-    else await POST('/users',{full_name,phone,email,password,role,gender:'male'});
-    closeModal('modal-create-user');state.editingClientId=null;toast('Сохранено');loadClients();
+    if(state.editingClientId){
+      await PUT('/users/'+state.editingClientId,{full_name,phone,email,gender:'male'});
+      if(password){
+        await PUT('/users/'+state.editingClientId+'/password/reset',{new_password:password});
+      }
+    } else {
+      await POST('/users',{full_name,phone,email,password,role,gender:'male'});
+    }
+    closeModal('modal-create-user');
+    state.editingClientId=null;
+    toast('Сохранено');
+    loadClients();
   }catch(e){showErr('cu-err',e.message);}
 }
 
@@ -2201,10 +2280,22 @@ function appFilter(status,btn){
   btn.classList.add('active');loadApplications(status);
 }
 
+let appsPage = 1;
+const APPS_PER_PAGE = 10;
+
 function renderApplications(){
-  const list=document.getElementById('applications-list');
-  if(!state.applications.length){list.innerHTML='<p style="color:var(--t2);text-align:center;padding:32px">Заявок нет</p>';return;}
-  list.innerHTML=state.applications.map(a=>'<div class="app-card">'
+  const list = document.getElementById('applications-list');
+  if(!state.applications.length){
+    list.innerHTML='<p style="color:var(--t2);text-align:center;padding:32px">Заявок нет</p>';
+    return;
+  }
+  const total = state.applications.length;
+  const totalPages = Math.ceil(total/APPS_PER_PAGE)||1;
+  if(appsPage>totalPages) appsPage=1;
+  const start = (appsPage-1)*APPS_PER_PAGE;
+  const paged = state.applications.slice(start, start+APPS_PER_PAGE);
+
+  list.innerHTML = paged.map(a=>'<div class="app-card">'
     +'<div><div style="font-weight:700;margin-bottom:4px">'+a.full_name+'</div>'
     +'<div style="font-size:13px;color:var(--t2)">'+a.phone+' · '+a.email+'</div>'
     +'<div style="font-size:12px;color:var(--t3);margin-top:4px">'+fmtDate(a.created_at)+'</div></div>'
@@ -2215,6 +2306,21 @@ function renderApplications(){
        +'<button class="btn btn-danger btn-sm" onclick="quickRejectApp('+Number(a.id)+')">Отклонить</button>'
       :'')
     +'</div></div>').join('');
+
+  // Пагинация
+  let pg = document.getElementById('apps-pagination');
+  if(!pg){
+    pg = document.createElement('div');
+    pg.id = 'apps-pagination';
+    pg.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:16px 0;margin-top:12px';
+    list.parentElement.appendChild(pg);
+  }
+  pg.innerHTML = '<span style="font-size:13px;color:var(--t2)">Показано '+Math.min(start+1,total)+'–'+Math.min(start+APPS_PER_PAGE,total)+' из '+total+'</span>'
+    +'<div style="display:flex;gap:4px">'
+    +'<button class="btn btn-ghost btn-sm" onclick="appsPage--;renderApplications()" '+(appsPage===1?'disabled':'')+'>‹</button>'
+    +Array.from({length:totalPages},(_,i)=>i+1).map(p=>'<button class="btn btn-sm '+(p===appsPage?'btn-primary':'btn-ghost')+'" onclick="appsPage='+p+';renderApplications()">'+p+'</button>').join('')
+    +'<button class="btn btn-ghost btn-sm" onclick="appsPage++;renderApplications()" '+(appsPage===totalPages?'disabled':'')+'>›</button>'
+    +'</div>';
 }
 
 function openApproveApp(id){
@@ -2233,7 +2339,12 @@ async function confirmApproveApp(){
   if(!state.approvingAppId){showErr('app-err','Ошибка ID');return;}
   try{
     await POST('/applications/'+state.approvingAppId+'/approve',{password});
-    closeModal('modal-approve-app');toast('Клиент принят');loadApplications();loadClients();
+    closeModal('modal-approve-app');
+    toast('Клиент принят');
+    loadApplications();
+    loadClients();
+    const apps=await GET('/applications?status=pending');
+    updateNavBadge('snav-applications',(apps||[]).length);
   }catch(e){showErr('app-err',e.message);}
 }
 
@@ -2261,7 +2372,13 @@ async function quickRejectApp(id){
   document.getElementById('qr-cancel').onclick=()=>overlay.remove();
   document.getElementById('qr-confirm').onclick=async()=>{
     overlay.remove();
-    try{await POST('/applications/'+Number(id)+'/reject');toast('Отклонено');loadApplications();}
+    try{
+      await POST('/applications/'+Number(id)+'/reject');
+      toast('Отклонено');
+      loadApplications();
+      const apps=await GET('/applications?status=pending');
+      updateNavBadge('snav-applications',(apps||[]).length);
+    }
     catch(e){toast(e.message,'error');}
   };
 }
@@ -2274,21 +2391,30 @@ async function loadStaffTrainers(){
 }
 
 function renderStaffTrainers(){
+  const activeBtn=document.querySelector('#staff-trainer-filters .pay-tab.active');
+  const specMap={'Рельеф тела':'body_relief','Похудение':'weight_loss','Набор массы':'mass_gain'};
+  const spec=specMap[activeBtn?.textContent.trim()]||'all';
+  const filtered=spec==='all'?state.trainers:state.trainers.filter(t=>t.specialization===spec);
   const grid=document.getElementById('staff-trainers-grid');
   const isAdmin=state.user?.role==='admin';
-  if(!state.trainers.length){grid.innerHTML='<p style="color:var(--t2)">Тренеров нет</p>';return;}
-  grid.innerHTML=state.trainers.map(t=>'<div class="trainer-card">'
+  if(!filtered.length){grid.innerHTML='<p style="color:var(--t2)">Тренеров нет</p>';return;}
+  grid.innerHTML=filtered.map(t=>'<div class="trainer-card">'
     +'<div class="trainer-photo">'+(t.photo_url?'<img src="'+t.photo_url+'" style="width:100%;height:100%;object-fit:cover" alt="">':'💪')+'</div>'
     +'<div class="trainer-info">'
     +'<div class="trainer-name">'+t.full_name+'</div>'
     +'<div class="trainer-spec">'+specLabel(t.specialization)+'</div>'
     +'<div class="trainer-bio">'+(t.bio||'')+'</div>'
     +'<div style="font-size:12px;color:var(--t3);margin-top:8px">Опыт: '+t.experience_years+' лет</div>'
-    +(isAdmin?'<div style="margin-top:10px"><button class="btn btn-danger btn-sm" onclick="deleteTrainer('+t.id+')">Удалить</button></div>':'')
+    +(isAdmin?'<div style="display:flex;gap:8px;margin-top:10px">'
+      +'<button class="btn btn-ghost btn-sm" onclick="openEditTrainerModal('+t.id+')">Изменить</button>'
+      +'<button class="btn btn-danger btn-sm" onclick="deleteTrainer('+t.id+')">Удалить</button>'
+      +'</div>':'')
     +'</div></div>').join('');
 }
 
 async function openCreateTrainerModal(){
+  state.editingTrainerId=null;
+  document.getElementById('ct-userid').closest('.inp-wrap').style.display='';
   ['ct-exp','ct-bio'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   hideErr('ct-err');
   const select=document.getElementById('ct-userid');
@@ -2300,6 +2426,8 @@ async function openCreateTrainerModal(){
   document.getElementById('ct-photo-preview').innerHTML='💪';
   document.getElementById('ct-photo-preview').dataset.base64='';
   document.getElementById('ct-photo-file').value='';
+  document.getElementById('ct-modal-title').textContent='Добавить тренера';
+  document.getElementById('ct-submit-btn').textContent='Добавить';
   openModal('modal-create-trainer');
 }
 
@@ -2319,16 +2447,50 @@ async function submitCreateTrainer(){
   hideErr('ct-err');
   const preview=document.getElementById('ct-photo-preview');
   const photoUrl=preview.dataset.base64||'';
+  const body={
+    specialization:document.getElementById('ct-spec').value,
+    bio:document.getElementById('ct-bio').value,
+    photo_url:photoUrl,
+    experience_years:parseInt(document.getElementById('ct-exp').value)||0,
+  };
   try{
-    await POST('/trainers',{
-      user_id:parseInt(document.getElementById('ct-userid').value),
-      specialization:document.getElementById('ct-spec').value,
-      bio:document.getElementById('ct-bio').value,
-      photo_url:photoUrl,
-      experience_years:parseInt(document.getElementById('ct-exp').value)||0,
-    });
-    closeModal('modal-create-trainer');toast('Тренер добавлен');loadStaffTrainers();
+    if(state.editingTrainerId){
+      await PUT('/trainers/'+state.editingTrainerId, body);
+      toast('Тренер обновлён');
+    } else {
+      await POST('/trainers',{
+        user_id:parseInt(document.getElementById('ct-userid').value),
+        ...body,
+      });
+      toast('Тренер добавлен');
+    }
+    state.editingTrainerId=null;
+    document.getElementById('ct-userid').closest('.inp-wrap').style.display='';
+    closeModal('modal-create-trainer');
+    loadStaffTrainers();
   }catch(e){showErr('ct-err',e.message);}
+}
+
+async function openEditTrainerModal(id){
+  const t=state.trainers.find(x=>x.id===id);if(!t)return;
+  state.editingTrainerId=id;
+  document.getElementById('ct-spec').value=t.specialization;
+  document.getElementById('ct-exp').value=t.experience_years;
+  document.getElementById('ct-bio').value=t.bio||'';
+  document.getElementById('ct-modal-title').textContent='Изменить тренера';
+  document.getElementById('ct-submit-btn').textContent='Сохранить';
+  const preview=document.getElementById('ct-photo-preview');
+  if(t.photo_url){
+    preview.innerHTML='<img src="'+t.photo_url+'" style="width:100%;height:100%;object-fit:cover">';
+    preview.dataset.base64=t.photo_url;
+  } else {
+    preview.innerHTML='💪';
+    preview.dataset.base64='';
+  }
+  // Скрываем выбор пользователя — уже создан
+  document.getElementById('ct-userid').closest('.inp-wrap').style.display='none';
+  hideErr('ct-err');
+  openModal('modal-create-trainer');
 }
 
 async function deleteTrainer(id){
