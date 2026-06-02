@@ -29,6 +29,26 @@ func (h *UserHandler) GetMe(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusOK, user)
 }
 
+func (h *UserHandler) AdminResetPassword(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(r.PathValue("id"), 10, 64)
+	if err != nil {
+		respondError(w, http.StatusBadRequest, "invalid id")
+		return
+	}
+	var input struct {
+		NewPassword string `json:"new_password"`
+	}
+	if err := decode(r, &input); err != nil {
+		respondError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+	if err := h.userSvc.AdminResetPassword(r.Context(), id, input.NewPassword); err != nil {
+		handleError(w, err)
+		return
+	}
+	respond(w, http.StatusOK, map[string]string{"status": "ok"})
+}
+
 // PUT /api/v1/users/me
 func (h *UserHandler) UpdateMe(w http.ResponseWriter, r *http.Request) {
 	userID, _ := middleware.GetUserID(r.Context())

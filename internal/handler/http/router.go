@@ -51,6 +51,7 @@ func NewRouter(h *Handlers, tokenMgr *jwt.Manager) http.Handler {
 	mux.Handle("POST /api/v1/users", managerAndAdmin(http.HandlerFunc(h.User.CreateUser)))
 	mux.Handle("GET /api/v1/users/{id}", managerAndAdmin(http.HandlerFunc(h.User.GetUser)))
 	mux.Handle("PUT /api/v1/users/{id}", managerAndAdmin(http.HandlerFunc(h.User.UpdateUser)))
+	mux.Handle("PUT /api/v1/users/{id}/password", adminOnly(http.HandlerFunc(h.User.AdminResetPassword)))
 
 	// --- Управление пользователями (только админ) ---
 	mux.Handle("DELETE /api/v1/users/{id}", adminOnly(http.HandlerFunc(h.User.DeleteUser)))
