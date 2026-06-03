@@ -682,6 +682,9 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
 
       <!-- Schedule -->
       <div id="ssec-schedule">
+        <div style="padding:16px 24px 0;display:flex;justify-content:flex-end">
+          <button class="btn btn-primary btn-sm" onclick="openCreateTrainingModal()">+ Добавить тренировку</button>
+        </div>
         <div id="staff-calendar"></div>
       </div>
 
@@ -802,6 +805,7 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
     <div id="apply-form">
       <h2 style="text-align:center;font-size:20px;font-weight:700;margin-bottom:22px">Добро пожаловать!</h2>
       <div style="display:flex;flex-direction:column;gap:14px">
+
         <div class="inp-wrap"><label class="inp-label">ФИО</label><input class="inp" id="a-name" placeholder="Романов Тимофей Юрьевич"></div>
         <div class="inp-wrap"><label class="inp-label">Номер телефона</label><input class="inp" id="a-phone" placeholder="+7(987)654-32-10"></div>
         <div class="inp-wrap"><label class="inp-label">Ваша почта</label><input class="inp" id="a-email" placeholder="@gmail.com"></div>
@@ -867,17 +871,25 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
   <div class="modal-box" style="width:420px">
     <div class="modal-head"><span style="font-weight:700;font-size:17px">Заявка на тренировку</span><button class="modal-close" onclick="closeModal('modal-req-training')">✕</button></div>
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="inp-wrap">
-        <label class="inp-label">Дата</label>
-        <input type="date" class="inp" id="req-date" style="color-scheme:dark">
+      <div style="display:flex;gap:8px">
+        <button type="button" id="req-type-solo" class="btn btn-primary btn-sm" onclick="setReqType('solo')" style="flex:1">Индивидуальная</button>
+        <button type="button" id="req-type-trainer" class="btn btn-ghost btn-sm" onclick="setReqType('trainer')" style="flex:1">С тренером</button>
       </div>
-      <div class="inp-wrap">
-        <label class="inp-label">Время</label>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px" id="req-time-grid"></div>
-      </div>
-      <div class="inp-wrap">
-        <label class="inp-label">Тренер</label>
-        <select class="inp" id="req-trainer"><option value="">Любой тренер</option></select>
+      <div id="req-trainer-time-block" style="display:none;flex-direction:column;gap:14px">
+        <div id="req-date-block">
+          <div class="inp-wrap">
+            <label class="inp-label">Дата</label>
+            <input type="date" class="inp" id="req-date" style="color-scheme:dark">
+          </div>
+        </div>
+        <div class="inp-wrap">
+          <label class="inp-label">Время</label>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px" id="req-time-grid"></div>
+        </div>
+        <div class="inp-wrap">
+          <label class="inp-label">Тренер</label>
+          <select class="inp" id="req-trainer"><option value="">Любой тренер</option></select>
+        </div>
       </div>
       <div class="inp-wrap">
         <label class="inp-label">Комментарий</label>
@@ -1023,6 +1035,36 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-create-training">
+  <div class="modal-box" style="width:480px">
+    <div class="modal-head"><span style="font-weight:700;font-size:17px">Добавить тренировку</span><button class="modal-close" onclick="closeModal('modal-create-training')">✕</button></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;gap:8px">
+        <button type="button" id="ctr-type-solo" class="btn btn-primary btn-sm" onclick="setCtrType('solo')" style="flex:1">Индивидуальная</button>
+        <button type="button" id="ctr-type-trainer" class="btn btn-ghost btn-sm" onclick="setCtrType('trainer')" style="flex:1">С тренером</button>
+      </div>
+      <div class="inp-wrap" style="position:relative">
+        <label class="inp-label">Клиент</label>
+        <input class="inp" id="ctr-client-search" placeholder="Введите ФИО клиента..." oninput="filterClientDropdown(this.value)" autocomplete="off">
+        <div id="ctr-client-dropdown" style="display:none;position:absolute;z-index:500;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.5);width:100%;top:100%;left:0;margin-top:4px"></div>
+        <input type="hidden" id="ctr-client">
+      </div>
+      <div class="inp-wrap"><label class="inp-label">Название</label><input class="inp" id="ctr-title" placeholder="Персональная тренировка"></div>
+      <div id="ctr-trainer-block" style="display:none">
+        <div class="inp-wrap"><label class="inp-label">Тренер</label><select class="inp" id="ctr-trainer"><option value="">Без тренера</option></select></div>
+      </div>
+      <div id="ctr-time-block" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="inp-wrap"><label class="inp-label">Начало</label><input type="text" class="inp" id="ctr-start" placeholder="02.06.2026 10:00"></div>
+          <div class="inp-wrap"><label class="inp-label">Конец</label><input type="text" class="inp" id="ctr-end" placeholder="02.06.2026 11:00"></div>
+        </div>
+      </div>
+      <div class="inp-wrap"><label class="inp-label">Описание</label><textarea class="inp" id="ctr-desc" rows="2" style="resize:vertical" placeholder="Описание..."></textarea></div>
+      <div id="ctr-err" style="font-size:13px;color:var(--red);display:none"></div>
+      <button class="btn btn-primary" onclick="submitCreateTraining()">Создать тренировку</button>
+    </div>
+  </div>
+</div>
 </div><!-- #app -->
 <script>
 const API = 'http://localhost:8080/api/v1';
@@ -1394,6 +1436,39 @@ async function renderHistoryWeek() {
     const content = document.getElementById('history-week-content');
     if(content) content.innerHTML = '<p style="color:var(--red);text-align:center;padding:20px">Ошибка загрузки</p>';
   }
+}
+
+let _ctrClients = [];
+
+function filterClientDropdown(val){
+  const dropdown = document.getElementById('ctr-client-dropdown');
+  const hidden = document.getElementById('ctr-client');
+  if(!val.trim()){dropdown.style.display='none';return;}
+  const filtered = _ctrClients.filter(u=>u.full_name.toLowerCase().includes(val.toLowerCase()));
+  if(!filtered.length){dropdown.style.display='none';return;}
+  dropdown.style.display='block';
+  dropdown.innerHTML = filtered.map(u=>
+    '<div onclick="selectClientDropdown('+u.id+',\''+u.full_name+'\')" style="padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid var(--border);transition:background .15s" onmouseover="this.style.background=\'var(--bg4)\'" onmouseout="this.style.background=\'transparent\'">'
+    +'<div style="font-weight:600">'+u.full_name+'</div>'
+    +'<div style="font-size:12px;color:var(--t2)">'+u.phone+' · '+u.email+'</div>'
+    +'</div>'
+  ).join('');
+}
+
+function selectClientDropdown(id, name){
+  document.getElementById('ctr-client').value=id;
+  document.getElementById('ctr-client-search').value=name;
+  document.getElementById('ctr-client-dropdown').style.display='none';
+}
+
+let _reqType='solo';
+
+function setReqType(type){
+  _reqType=type;
+  document.getElementById('req-type-solo').className=type==='solo'?'btn btn-primary btn-sm':'btn btn-ghost btn-sm';
+  document.getElementById('req-type-trainer').className=type==='trainer'?'btn btn-primary btn-sm':'btn btn-ghost btn-sm';
+  document.getElementById('req-date-block').style.display=type==='trainer'?'block':'none';
+  document.getElementById('req-trainer-time-block').style.display=type==='trainer'?'block':'none';
 }
 
 function clientNav(sec){
@@ -1858,6 +1933,7 @@ async function openTrainingRequestModal(){
   const grid=document.getElementById('req-time-grid');
   grid.innerHTML=times.map(t=>'<button type="button" onclick="selectTime(this,\''+t+'\')" style="padding:8px 4px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="if(!this.classList.contains(\'time-sel\'))this.style.borderColor=\'var(--blue)\'" onmouseout="if(!this.classList.contains(\'time-sel\'))this.style.borderColor=\'var(--border)\'">'+t+'</button>').join('');
 
+  setReqType('solo');
   openModal('modal-req-training');
 }
 
@@ -1876,19 +1952,31 @@ function selectTime(btn, time){
 }
 
 async function submitTrainingRequest(){
+  hideErr('req-err');
+  if(_reqType==='solo'){
+    try{
+      await POST('/schedule/requests',{
+        preferred_at:new Date().toISOString(),
+        comment:'Индивидуальная тренировка. '+(document.getElementById('req-comment').value||''),
+      });
+      closeModal('modal-req-training');
+      document.getElementById('req-comment').value='';
+      toast('Заявка отправлена!');
+    }catch(e){showErr('req-err',e.message);}
+    return;
+  }
   const date=document.getElementById('req-date').value;
   const timeBtn=document.querySelector('#req-time-grid button.time-sel');
   const time=timeBtn?timeBtn.dataset.time:'';
   const preferred_at=date&&time?new Date(date+'T'+time+':00').toISOString():'';
   const comment=document.getElementById('req-comment').value;
   const trainerVal=document.getElementById('req-trainer').value;
-  hideErr('req-err');
   if(!date){showErr('req-err','Выберите дату');return;}
   if(!time){showErr('req-err','Выберите время');return;}
   const trainerName=trainerVal?document.getElementById('req-trainer').selectedOptions[0].textContent:'';
   const fullComment=trainerName?'Тренер: '+trainerName+'. '+comment:comment;
   try{
-    await POST('/schedule/requests',{preferred_at:preferred_at,comment:fullComment});
+    await POST('/schedule/requests',{preferred_at,comment:fullComment});
     closeModal('modal-req-training');
     document.getElementById('req-comment').value='';
     toast('Заявка отправлена!');
@@ -2127,6 +2215,78 @@ async function submitRejectRequest(){
   }catch(e){toast(e.message||'Ошибка','error');}
 }
 
+async function openCreateTrainingModal(){
+  hideErr('ctr-err');
+  const trainerSel=document.getElementById('ctr-trainer');
+  trainerSel.innerHTML='<option value="">Без тренера</option>';
+  document.getElementById('ctr-client-search').value='';
+  document.getElementById('ctr-client').value='';
+  document.getElementById('ctr-client-dropdown').style.display='none';
+  _ctrClients=[];
+  try{
+    const [users,trainers]=await Promise.all([GET('/users'),GET('/trainers')]);
+    _ctrClients=(users||[]).filter(u=>u.role==='client');
+    (trainers||[]).forEach(t=>{
+      const opt=document.createElement('option');
+      opt.value=t.id;
+      opt.textContent=t.full_name+' — '+specLabel(t.specialization);
+      trainerSel.appendChild(opt);
+    });
+  }catch{}
+  const now=new Date();
+  const pad=n=>String(n).padStart(2,'0');
+  const dateStr=pad(now.getDate())+'.'+pad(now.getMonth()+1)+'.'+now.getFullYear();
+  document.getElementById('ctr-start').value=dateStr+' 10:00';
+  document.getElementById('ctr-end').value=dateStr+' 11:00';
+  document.getElementById('ctr-title').value='Персональная тренировка';
+  document.getElementById('ctr-desc').value='';
+  setCtrType('solo');
+  openModal('modal-create-training');
+}
+
+async function submitCreateTraining(){
+  hideErr('ctr-err');
+  const client_id=parseInt(document.getElementById('ctr-client').value);
+  const title=document.getElementById('ctr-title').value.trim();
+  const description=document.getElementById('ctr-desc').value;
+  if(!client_id){showErr('ctr-err','Выберите клиента');return;}
+  if(!title){showErr('ctr-err','Введите название');return;}
+  try{
+    if(_ctrType==='solo'){
+      const now=new Date().toISOString();
+      await POST('/schedule',{
+        client_id,trainer_id:null,title,description,
+        start_time:now,end_time:now,status:'completed',
+      });
+    } else {
+      const trainer_id=parseInt(document.getElementById('ctr-trainer').value)||null;
+      const start=document.getElementById('ctr-start').value;
+      const end=document.getElementById('ctr-end').value;
+      if(!start||!end){showErr('ctr-err','Укажите время');return;}
+      await POST('/schedule',{
+        client_id,trainer_id,title,description,
+        start_time:parseRuDate(start),
+        end_time:parseRuDate(end),
+        status:'scheduled',
+      });
+    }
+    closeModal('modal-create-training');
+    toast('Тренировка добавлена');
+    loadStaffSchedule();
+    loadClients();
+  }catch(e){showErr('ctr-err',e.message);}
+}
+
+let _ctrType='solo';
+
+function setCtrType(type){
+  _ctrType=type;
+  document.getElementById('ctr-type-solo').className=type==='solo'?'btn btn-primary btn-sm':'btn btn-ghost btn-sm';
+  document.getElementById('ctr-type-trainer').className=type==='trainer'?'btn btn-primary btn-sm':'btn btn-ghost btn-sm';
+  document.getElementById('ctr-trainer-block').style.display=type==='trainer'?'block':'none';
+  document.getElementById('ctr-time-block').style.display=type==='trainer'?'block':'none';
+}
+
 // CLIENTS
 async function loadClients(){
   const tb=document.getElementById('clients-tbody');
@@ -2258,7 +2418,7 @@ async function submitCreateUser(){
     if(state.editingClientId){
       await PUT('/users/'+state.editingClientId,{full_name,phone,email,gender:'male'});
       if(password){
-        await PUT('/users/'+state.editingClientId+'/password/reset',{new_password:password});
+        await PUT('/users/'+state.editingClientId+'/password',{new_password:password});
       }
     } else {
       await POST('/users',{full_name,phone,email,password,role,gender:'male'});
@@ -2455,7 +2615,12 @@ async function submitCreateTrainer(){
   };
   try{
     if(state.editingTrainerId){
-      await PUT('/trainers/'+state.editingTrainerId, body);
+      const t=state.trainers.find(x=>x.id===state.editingTrainerId);
+      await PUT('/trainers/'+state.editingTrainerId,{
+        ...body,
+        user_id:t?.user_id||null,
+        is_active:true,
+      });
       toast('Тренер обновлён');
     } else {
       await POST('/trainers',{

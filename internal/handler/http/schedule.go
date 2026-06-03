@@ -188,6 +188,21 @@ func (h *ScheduleHandler) DeleteTraining(w http.ResponseWriter, r *http.Request)
 	respond(w, http.StatusNoContent, nil)
 }
 
+// POST /api/v1/schedule  — менеджер/админ: создать тренировку напрямую
+func (h *ScheduleHandler) CreateTraining(w http.ResponseWriter, r *http.Request) {
+	var input domain.CreateTrainingInput
+	if err := decode(r, &input); err != nil {
+		respondError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+	training, err := h.scheduleSvc.CreateTraining(r.Context(), input)
+	if err != nil {
+		handleError(w, err)
+		return
+	}
+	respond(w, http.StatusCreated, training)
+}
+
 func parseIntStr(s string, dst *int64) (int64, error) {
 	if s == "" {
 		return 0, domain.ErrInvalidInput
