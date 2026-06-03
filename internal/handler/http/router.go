@@ -74,6 +74,7 @@ func NewRouter(h *Handlers, tokenMgr *jwt.Manager) http.Handler {
 	mux.Handle("GET /api/v1/schedule/requests", managerAndAdmin(http.HandlerFunc(h.Schedule.ListPendingRequests)))
 	mux.Handle("POST /api/v1/schedule/requests/{id}/approve", managerAndAdmin(http.HandlerFunc(h.Schedule.ApproveRequest)))
 	mux.Handle("POST /api/v1/schedule/requests/{id}/reject", managerAndAdmin(http.HandlerFunc(h.Schedule.RejectRequest)))
+	mux.Handle("POST /api/v1/schedule", managerAndAdmin(http.HandlerFunc(h.Schedule.CreateTraining)))
 	mux.Handle("PUT /api/v1/schedule/{id}", managerAndAdmin(http.HandlerFunc(h.Schedule.UpdateTraining)))
 	mux.Handle("DELETE /api/v1/schedule/{id}", adminOnly(http.HandlerFunc(h.Schedule.DeleteTraining)))
 

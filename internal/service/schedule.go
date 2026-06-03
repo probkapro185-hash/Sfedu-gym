@@ -81,6 +81,13 @@ func (s *ScheduleService) GetSchedule(ctx context.Context, filter domain.Schedul
 	return s.trainingRepo.List(ctx, filter)
 }
 
+func (s *ScheduleService) CreateTraining(ctx context.Context, input domain.CreateTrainingInput) (*domain.Training, error) {
+	if input.EndTime.Before(input.StartTime) {
+		return nil, fmt.Errorf("%w: end time must be after start time", domain.ErrInvalidInput)
+	}
+	return s.trainingRepo.Create(ctx, input)
+}
+
 // GetTrainingByID — детали занятия
 func (s *ScheduleService) GetTrainingByID(ctx context.Context, id int64) (*domain.Training, error) {
 	return s.trainingRepo.GetByID(ctx, id)
