@@ -689,22 +689,22 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
       </div>
 
       <!-- Clients -->
-      <div id="ssec-clients" style="display:none;padding:24px">
-        <div class="clients-filters">
-          <input class="inp" id="client-search" placeholder="🔍 Поиск по ФИО или телефону" style="width:260px" oninput="renderClientsTable()">
-          <select class="inp" id="client-role-filter" style="width:160px" onchange="renderClientsTable()">
-            <option value="">Все роли</option>
-            <option value="client">Клиенты</option>
-            <option value="manager">Менеджеры</option>
-          </select>
-          <button class="btn btn-primary btn-sm" onclick="openCreateUserModal()">+ Добавить клиента</button>
-        </div>
-        <div class="card" style="overflow:hidden">
-          <div class="table-wrap">
-            <table><thead><tr><th>ФИО</th><th>Телефон</th><th>Email</th><th>Баланс</th><th>Посещений</th><th>Последний визит</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="clients-tbody"></tbody></table>
-          </div>
-        </div>
-      </div>
+<div id="ssec-clients" style="display:none;padding:24px">
+  <div class="clients-filters">
+    <input class="inp" id="client-search" placeholder="🔍 Поиск по ФИО или телефону" style="width:260px" oninput="renderClientsTable()">
+    <select class="inp" id="client-role-filter" style="width:160px" onchange="renderClientsTable()">
+      <option value="">Все роли</option>
+      <option value="client">Клиенты</option>
+      <option value="manager">Менеджеры</option>
+    </select>
+    <button class="btn btn-primary btn-sm" onclick="openCreateUserModal()">+ Добавить клиента</button>
+  </div>
+  <div class="card" style="overflow:hidden">
+    <div class="table-wrap">
+      <table><thead><tr><th>ФИО</th><th>Телефон</th><th>Email</th><th>Баланс</th><th>Посещений</th><th>Последний визит</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="clients-tbody"></tbody></table>
+    </div>
+  </div>
+</div>
 
       <!-- Applications -->
       <div id="ssec-applications" style="display:none;padding:24px">
@@ -2253,10 +2253,13 @@ async function submitCreateTraining(){
   if(!title){showErr('ctr-err','Введите название');return;}
   try{
     if(_ctrType==='solo'){
-      const now=new Date().toISOString();
+      const now=new Date();
+      const end=new Date(now.getTime()+1000);
       await POST('/schedule',{
         client_id,trainer_id:null,title,description,
-        start_time:now,end_time:now,status:'completed',
+        start_time:now.toISOString(),
+        end_time:end.toISOString(),
+        status:'completed',
       });
     } else {
       const trainer_id=parseInt(document.getElementById('ctr-trainer').value)||null;
@@ -2285,6 +2288,24 @@ function setCtrType(type){
   document.getElementById('ctr-type-trainer').className=type==='trainer'?'btn btn-primary btn-sm':'btn btn-ghost btn-sm';
   document.getElementById('ctr-trainer-block').style.display=type==='trainer'?'block':'none';
   document.getElementById('ctr-time-block').style.display=type==='trainer'?'block':'none';
+  if(type==='solo'){
+    const now=new Date();
+    const pad=n=>String(n).padStart(2,'0');
+    const timeStr=pad(now.getHours())+':'+pad(now.getMinutes());
+    const dateStr=pad(now.getDate())+'.'+pad(now.getMonth()+1)+'.'+now.getFullYear();
+    let info=document.getElementById('ctr-solo-time-info');
+    if(!info){
+      info=document.createElement('div');
+      info.id='ctr-solo-time-info';
+      info.style.cssText='font-size:13px;color:var(--t2);background:var(--bg4);border-radius:var(--r);padding:10px 14px;border:1px solid var(--border)';
+      document.getElementById('ctr-trainer-block').parentElement.insertBefore(info,document.getElementById('ctr-trainer-block'));
+    }
+    info.style.display='block';
+    info.textContent='Время тренировки: '+dateStr+' '+timeStr+' — будет отмечена как завершённая';
+  } else {
+    const info=document.getElementById('ctr-solo-time-info');
+    if(info)info.style.display='none';
+  }
 }
 
 // CLIENTS
@@ -2293,8 +2314,12 @@ async function loadClients(){
   if(tb) tb.innerHTML='<tr>'+Array(8).fill('<td><div class="skeleton" style="height:18px;margin:4px 0"></div></td>').join('')+'</tr>'.repeat(5);
   try{
     const [users,trainers]=await Promise.all([GET('/users'),GET('/trainers')]);
-    state.clients=users||[];state.trainers=trainers||[];renderClientsTable();
-  }catch{}
+    state.clients=users||[];
+    state.trainers=trainers||[];
+    renderClientsTable();
+  }catch(e){
+    toast(e.message||'Ошибка загрузки клиентов','error');
+  }
 }
 
 let clientsPage=1;const CLIENTS_PER_PAGE=15;

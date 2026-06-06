@@ -6,10 +6,10 @@ import "time"
 type TrainingStatus string
 
 const (
-	TrainingStatusScheduled  TrainingStatus = "scheduled"  // Запланировано
-	TrainingStatusCompleted  TrainingStatus = "completed"  // Завершено
-	TrainingStatusCancelled  TrainingStatus = "cancelled"  // Отменено
-	TrainingStatusPending    TrainingStatus = "pending"    // Ожидает подтверждения (заявка)
+	TrainingStatusScheduled TrainingStatus = "scheduled" // Запланировано
+	TrainingStatusCompleted TrainingStatus = "completed" // Завершено
+	TrainingStatusCancelled TrainingStatus = "cancelled" // Отменено
+	TrainingStatusPending   TrainingStatus = "pending"   // Ожидает подтверждения (заявка)
 )
 
 // Training — запись на тренировку / занятие
@@ -49,12 +49,13 @@ type CreateTrainingRequestInput struct {
 }
 
 type CreateTrainingInput struct {
-	ClientID    int64          `json:"client_id"`
-	TrainerID   *int64         `json:"trainer_id,omitempty"`
-	Title       string         `json:"title"`
-	Description string         `json:"description"`
-	StartTime   time.Time      `json:"start_time"`
-	EndTime     time.Time      `json:"end_time"`
+	ClientID    int64     `json:"client_id"`
+	TrainerID   *int64    `json:"trainer_id,omitempty"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	StartTime   time.Time `json:"start_time"`
+	EndTime     time.Time `json:"end_time"`
+	Status      string    `json:"status"`
 }
 
 type UpdateTrainingInput struct {

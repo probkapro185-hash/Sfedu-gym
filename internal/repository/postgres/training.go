@@ -20,15 +20,18 @@ func NewTrainingRepository(db *pgxpool.Pool) repository.TrainingRepository {
 }
 
 func (r *trainingRepo) Create(ctx context.Context, input domain.CreateTrainingInput) (*domain.Training, error) {
+	status := input.Status
+	if status == "" {
+		status = "scheduled"
+	}
 	const q = `
-		INSERT INTO trainings (client_id, trainer_id, title, description, start_time, end_time, status)
-		VALUES ($1, $2, $3, $4, $5, $6, 'scheduled')
-		RETURNING id, client_id, trainer_id, title, description, start_time, end_time, status, created_at, updated_at`
-
+        INSERT INTO trainings (client_id, trainer_id, title, description, start_time, end_time, status)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING id, client_id, trainer_id, title, description, start_time, end_time, status, created_at, updated_at`
 	t := &domain.Training{}
 	err := r.db.QueryRow(ctx, q,
 		input.ClientID, input.TrainerID, input.Title,
-		input.Description, input.StartTime, input.EndTime,
+		input.Description, input.StartTime, input.EndTime, status,
 	).Scan(
 		&t.ID, &t.ClientID, &t.TrainerID, &t.Title,
 		&t.Description, &t.StartTime, &t.EndTime,
