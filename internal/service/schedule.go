@@ -85,7 +85,23 @@ func (s *ScheduleService) CreateTraining(ctx context.Context, input domain.Creat
 	if input.EndTime.Before(input.StartTime) {
 		return nil, fmt.Errorf("%w: end time must be after start time", domain.ErrInvalidInput)
 	}
-	return s.trainingRepo.Create(ctx, input)
+	sub, err := s.subscriptionRepo.GetActiveByClient(ctx, input.ClientID)
+	if err != nil || sub == nil {
+		return nil, fmt.Errorf("%w: у клиента нет активного абонемента", domain.ErrInvalidInput)
+	}
+	training, err := s.trainingRepo.Create(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	if input.Status == "completed" {
+		if err := s.subscriptionRepo.DecrementSessions(ctx, sub.ID); err != nil {
+			return nil, fmt.Errorf("DecrementSessions: %w", err)
+		}
+		if err := s.userRepo.IncrementVisits(ctx, input.ClientID); err != nil {
+			return nil, fmt.Errorf("IncrementVisits: %w", err)
+		}
+	}
+	return training, nil
 }
 
 // GetTrainingByID — детали занятия

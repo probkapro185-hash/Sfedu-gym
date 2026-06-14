@@ -128,13 +128,19 @@ func (r *userRepo) List(ctx context.Context, filter repository.UserFilter) ([]*d
 		argIdx += 2
 	}
 
-	q := `SELECT id, full_name, phone, email, role, gender,
-	             balance, visits, is_active, created_at, updated_at, last_visit_at
-	      FROM users`
+	q := `SELECT u.id, u.full_name, u.phone, u.email, u.role, u.gender,
+	             u.balance, u.visits, u.is_active, u.created_at, u.updated_at, u.last_visit_at,
+	             s.sessions_left
+	      FROM users u
+	      LEFT JOIN LATERAL (
+	        SELECT sessions_left FROM client_subscriptions
+	        WHERE client_id = u.id AND is_active = true
+	        ORDER BY end_date DESC LIMIT 1
+	      ) s ON true`
 	if len(conditions) > 0 {
 		q += " WHERE " + strings.Join(conditions, " AND ")
 	}
-	q += " ORDER BY created_at DESC"
+	q += " ORDER BY u.created_at DESC"
 
 	rows, err := r.db.Query(ctx, q, args...)
 	if err != nil {
@@ -149,6 +155,7 @@ func (r *userRepo) List(ctx context.Context, filter repository.UserFilter) ([]*d
 			&u.ID, &u.FullName, &u.Phone, &u.Email,
 			&u.Role, &u.Gender, &u.Balance, &u.Visits,
 			&u.IsActive, &u.CreatedAt, &u.UpdatedAt, &u.LastVisitAt,
+			&u.SessionsLeft,
 		); err != nil {
 			return nil, fmt.Errorf("userRepo.List scan: %w", err)
 		}

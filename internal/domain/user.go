@@ -32,6 +32,7 @@ type User struct {
 	CreatedAt    time.Time  `json:"created_at"`
 	UpdatedAt    time.Time  `json:"updated_at"`
 	LastVisitAt  *time.Time `json:"last_visit_at,omitempty"`
+	SessionsLeft *int       `json:"sessions_left,omitempty"`
 }
 
 // ApplicationRequest — заявка от клиента на регистрацию (до принятия менеджером/админом)
