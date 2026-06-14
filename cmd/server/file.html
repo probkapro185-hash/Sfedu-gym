@@ -701,7 +701,7 @@ input[type="radio"]:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
   </div>
   <div class="card" style="overflow:hidden">
     <div class="table-wrap">
-      <table><thead><tr><th>ФИО</th><th>Телефон</th><th>Email</th><th>Баланс</th><th>Посещений</th><th>Последний визит</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="clients-tbody"></tbody></table>
+      <table><thead><tr><th>ФИО</th><th>Телефон</th><th>Email</th><th>Баланс</th><th>Посещений</th><th>Занятий</th><th>Последний визит</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="clients-tbody"></tbody></table>
     </div>
   </div>
 </div>
@@ -2345,7 +2345,7 @@ function renderClientsTable(){
   const start=(clientsPage-1)*CLIENTS_PER_PAGE;
   const paged=list.slice(start,start+CLIENTS_PER_PAGE);
   const tb=document.getElementById('clients-tbody');
-  if(!paged.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:24px">Клиентов нет</td></tr>';}
+  if(!paged.length){tb.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--t3);padding:24px">Клиентов нет</td></tr>';}
   else{
     tb.innerHTML=paged.map(c=>{
       const isAdmin=state.user?.role==='admin';
@@ -2367,6 +2367,7 @@ function renderClientsTable(){
         +'<td style="font-size:13px">'+c.email+'</td>'
         +'<td style="font-weight:700;color:var(--blue2)">'+fmtMoney(c.balance)+' ₽</td>'
         +'<td>'+c.visits+'</td>'
+        +'<td>'+(c.sessions_left!=null?'<span style="font-weight:700;color:var(--green)">'+c.sessions_left+' зан.</span>':'<span style="font-size:12px;color:var(--t3)">Нет абонемента</span>')+'</td>'
         +'<td style="font-size:12px;color:var(--t2)">'+(c.last_visit_at?fmtDate(c.last_visit_at):'—')+'</td>'
         +'<td>'+statusHtml+'</td>'
         +'<td><div style="position:relative;display:inline-block">'
